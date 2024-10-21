@@ -15,3 +15,28 @@ function testGS(){
 
 document.getElementById("btn").addEventListener("click", testGS);
  
+
+
+
+function addGS(){
+
+
+    const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec"
+
+    fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        cache: 'no-cache',
+        //credentials: 'omit',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        redirect: 'follow',
+        body:   JSON.stringify({name:"Bryan"})
+    });
+
+}
+
+
+document.getElementById("btn2").addEventListener("click", addGS);
+ 
