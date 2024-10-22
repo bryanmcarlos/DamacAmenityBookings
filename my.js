@@ -36,10 +36,14 @@ function addGS() {
             Status: "testStatus"
         })
     })
-    .then(response => response.json())  // Parsing the response as JSON
+    .then(response => response.json())  // Parse JSON response
     .then(data => {
         console.log("Success:", data);
-        // Optional: update the DOM or notify the user if the request was successful
+        if (data.status === 200) {
+            alert("Data added successfully");
+        } else {
+            alert("Error: " + data.message);
+        }
     })
     .catch(error => {
         console.error("Error:", error);
