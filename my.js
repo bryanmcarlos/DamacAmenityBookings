@@ -32,7 +32,9 @@ function addGS(){
             'Content-Type': 'application/json'
         },
         redirect: 'follow',
-        body:   JSON.stringify({name:"Bryan"})
+        // insert data
+        body:   JSON.stringify({Account:"TestAccount", BookingID:"TestBooking", AmenityName:"testAmenityName", BookingDate:"testBookingDate", TimeSlot:"testTimeSlot", ServiceRequestNumber:"testServiceRequestNumber", Status:"testStatus"})
+ 
     });
 
 }
