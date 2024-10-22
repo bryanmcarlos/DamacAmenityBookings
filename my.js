@@ -18,32 +18,34 @@ document.getElementById("btn").addEventListener("click", testGS);
 
 
 
-function addGS(){
-
-
-    const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec"
-
+function addGS() {
+    const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec";
+    
     fetch(url, {
         method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        //credentials: 'omit',
         headers: {
             'Content-Type': 'application/json'
         },
-        redirect: 'follow',
-        // insert data
-        body:   JSON.stringify({Account:"TestAccount", 
-                                BookingID:"TestBooking", 
-                                AmenityName:"testAmenityName", 
-                                BookingDate:"testBookingDate", 
-                                TimeSlot:"testTimeSlot", 
-                                ServiceRequestNumber:"testServiceRequestNumber", 
-                                Status:"testStatus"})
- 
+        body: JSON.stringify({
+            Account: "TestAccount",
+            BookingID: "TestBooking",
+            AmenityName: "testAmenityName",
+            BookingDate: "testBookingDate",
+            TimeSlot: "testTimeSlot",
+            ServiceRequestNumber: "testServiceRequestNumber",
+            Status: "testStatus"
+        })
+    })
+    .then(response => response.json())  // Parsing the response as JSON
+    .then(data => {
+        console.log("Success:", data);
+        // Optional: update the DOM or notify the user if the request was successful
+    })
+    .catch(error => {
+        console.error("Error:", error);
     });
-
 }
+
 
 
 document.getElementById("btn2").addEventListener("click", addGS);
