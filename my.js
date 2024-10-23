@@ -4,62 +4,45 @@ function loadBryanBookings() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            const bookings = data[0].data; // Access the bookings array
+            const bookings = data[0].data;
             const appDiv = document.getElementById("app");
-            appDiv.innerHTML = ""; // Clear any previous content
+            appDiv.innerHTML = "";
 
             bookings.forEach(booking => {
-                // Create the card container
                 const card = document.createElement("div");
                 card.className = "booking-card";
 
-                // Icon container and title
-                const topContainer = document.createElement("div");
-                topContainer.className = "top-container";
-
                 const iconContainer = document.createElement("div");
-                iconContainer.className = "icon-container";
+                iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
-                iconImage.src = "icon.png"; // Replace with your icon image path
-                iconImage.className = "booking-icon";
+                iconImage.src = "icon.png";
                 iconContainer.appendChild(iconImage);
 
-                const detailsTitle = document.createElement("div");
-                detailsTitle.className = "details-title";
-                detailsTitle.innerHTML = `
-                    <h3>${booking.AmenityName}</h3>
-                `;
-
-                const statusContainer = document.createElement("div");
-                statusContainer.className = "status-container";
-                statusContainer.innerHTML = `
-                    <span class="status-icon">&#10003;</span> Approved
-                `;
-
-                const menuIcon = document.createElement("div");
-                menuIcon.className = "menu-icon";
-                menuIcon.innerHTML = `
-                    <span>⋮</span>
-                `;
-
-                // Assemble the top section
-                topContainer.appendChild(iconContainer);
-                topContainer.appendChild(detailsTitle);
-                topContainer.appendChild(statusContainer);
-                topContainer.appendChild(menuIcon);
-                card.appendChild(topContainer);
-
-                // Details container
                 const detailsContainer = document.createElement("div");
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
-                    <p class="field-title">Booking date: <span>${formatDate(booking.BookingDate)}</span></p>
-                    <p class="field-title">Time slot: <span>${booking.TimeSlot}</span></p>
-                    <p class="field-title">Service Req Number: <span>${booking.ServiceRequestNumber}</span></p>
-                    <p class="field-title">Service Req Raised Date: <span>${formatRaisedDate(booking.BookingDate)}</span></p>
+                    <h2>${booking.AmenityName}</h2>
+                    <div class="status">
+                        <img src="approvedIcon.png" alt="Approved">
+                        <span>Approved</span>
+                    </div>
+                    <p><strong>Booking date:</strong> <span class="value">${formatDate(booking.BookingDate)}</span></p>
+                    <p><strong>Time slot:</strong> <span class="value">${booking.TimeSlot}</span></p>
+                    <div class="flex-row">
+                        <div>
+                            <p>Service Req Number:</p>
+                            <p class="value">${booking.ServiceRequestNumber}</p>
+                        </div>
+                        <div>
+                            <p>Service Req Raised Date:</p>
+                            <p class="value">${formatDate(booking.BookingDate)}</p>
+                        </div>
+                    </div>
                 `;
 
+                card.appendChild(iconContainer);
                 card.appendChild(detailsContainer);
+
                 appDiv.appendChild(card);
             });
         })
@@ -72,15 +55,8 @@ function loadBryanBookings() {
 // Helper function to format the date
 function formatDate(dateStr) {
     const date = new Date(dateStr);
-    const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
-}
-
-function formatRaisedDate(dateStr) {
-    const date = new Date(dateStr);
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     return date.toLocaleDateString(undefined, options);
 }
 
-// Attach the event listener to the button
 document.getElementById("btn").addEventListener("click", loadBryanBookings);
