@@ -69,17 +69,13 @@ function loadBryanBookings() {
         });
 }
 
-// Helper function to format the date 11111
+// Helper function to format the date
 function formatDate(dateStr, includeWeekday = true) {
-    // Check if the dateStr matches the expected format "YYYY-MM-DD"
-    const dateParts = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-    if (!dateParts) {
+    // Parse the date string as a Date object
+    const date = new Date(dateStr);
+    if (isNaN(date)) {
         return "Invalid Date";
     }
-
-    // Destructure the matched groups into variables
-    const [_, year, month, day] = dateParts;
-    const date = new Date(year, month - 1, day);
 
     // Define the options for formatting
     const options = {
