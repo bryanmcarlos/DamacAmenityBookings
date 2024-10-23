@@ -27,8 +27,8 @@ function addGS() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            Account: "TestAccount",
-            BookingID: "TestBooking",
+            SSAccount: "TestAccount",
+            SSBookingID: "TestBooking",
             AmenityName: "testAmenityName",
             BookingDate: "testBookingDate",
             TimeSlot: "testTimeSlot",
