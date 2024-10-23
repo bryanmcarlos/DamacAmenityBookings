@@ -15,33 +15,37 @@ function loadBryanBookings() {
                 const iconContainer = document.createElement("div");
                 iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
-                iconImage.src = "icon.png"; // Path to the icon
+                iconImage.src = "icon.png"; // Replace with your icon path
                 iconContainer.appendChild(iconImage);
 
                 const detailsContainer = document.createElement("div");
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
+                    <h2>
+                        <img class="amenity-icon" src="icon.png" alt="Amenity Icon"> 
+                        ${booking.AmenityName}
+                    </h2>
                     <div class="status">
                         <img src="approvedIcon.png" alt="Approved">
                         <span>Approved</span>
                     </div>
-                    <h2>${booking.AmenityName}</h2>
                     <p><strong>Booking date:</strong> <span class="value">${formatDate(booking.BookingDate)}</span></p>
                     <p><strong>Time slot:</strong> <span class="value">${booking.TimeSlot}</span></p>
                     <div class="flex-row">
                         <div>
-                            <p>Service Req Number</p>
+                            <p>Service Req Number:</p>
                             <p class="value">${booking.ServiceRequestNumber}</p>
                         </div>
                         <div>
-                            <p>Service Req Raised Date</p>
-                            <p class="value">${formatRaisedDate(booking.BookingDate)}</p>
+                            <p>Service Req Raised Date:</p>
+                            <p class="value">${formatDate(booking.BookingDate)}</p>
                         </div>
                     </div>
                 `;
 
                 card.appendChild(iconContainer);
                 card.appendChild(detailsContainer);
+
                 appDiv.appendChild(card);
             });
         })
@@ -51,15 +55,8 @@ function loadBryanBookings() {
         });
 }
 
-// Helper function to format the booking date
+// Helper function to format the date
 function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
-}
-
-// Helper function to format the raised date (without weekday)
-function formatRaisedDate(dateStr) {
     const date = new Date(dateStr);
     const options = { day: '2-digit', month: 'short', year: 'numeric' };
     return date.toLocaleDateString(undefined, options);
