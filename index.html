@@ -30,18 +30,17 @@
 
         .booking-card {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             background-color: white;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             margin-bottom: 15px;
+            position: relative;
         }
 
         .booking-icon {
             margin-right: 15px;
-            display: flex;
-            align-items: center;
         }
 
         .booking-icon img {
@@ -55,21 +54,31 @@
         }
 
         .booking-details h2 {
-            font-size: 16px;
+            font-size: 14px;
             margin: 0;
-            font-weight: normal;
+            font-weight: bold;
+            color: #333;
         }
 
         .booking-details p {
             font-size: 12px;
             margin: 5px 0;
-            color: #888;
+            color: #666;
+        }
+
+        .booking-details p span {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            font-weight: bold;
         }
 
         .status {
             display: flex;
             align-items: center;
-            margin-left: auto;
+            position: absolute;
+            top: 10px;
+            right: 10px;
             font-size: 12px;
         }
 
@@ -88,6 +97,20 @@
             content: "⋮";
             font-size: 18px;
             color: #333;
+        }
+
+        .aligned-container {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+        }
+
+        .aligned-container div {
+            flex: 1;
+        }
+
+        .service-req-date {
+            text-align: right;
         }
     </style>
 </head>
@@ -124,17 +147,20 @@
                         detailsContainer.className = "booking-details";
                         detailsContainer.innerHTML = `
                             <h2>${booking.AmenityName}</h2>
-                            <p>Booking date: ${formatDate(booking.BookingDate)}</p>
-                            <p>Time slot: ${booking.TimeSlot}</p>
-                            <p>Service Req Number: ${booking.ServiceRequestNumber}</p>
-                            <p>Service Req Raised Date: ${formatShortDate(booking.BookingDate)}</p>
+                            <p>Booking date: <span>${formatDate(booking.BookingDate)}</span></p>
+                            <p>Time slot: <span>${booking.TimeSlot}</span></p>
+                            <p>Service Req Number: <span>${booking.ServiceRequestNumber}</span></p>
+                            <div class="aligned-container">
+                                <div>Service Req Raised Date:</div>
+                                <div class="service-req-date"><span>${formatShortDate(booking.BookingDate)}</span></div>
+                            </div>
                         `;
 
                         // Status container
                         const statusContainer = document.createElement("div");
                         statusContainer.className = "status";
                         const statusIcon = document.createElement("img");
-                        statusIcon.src = "approved-icon.png"; // Replace with your approved status icon path
+                        statusIcon.src = "approvedIcon.png"; // Replace with your approved status icon path
                         statusContainer.appendChild(statusIcon);
                         const statusText = document.createElement("span");
                         statusText.textContent = "Approved";
@@ -147,8 +173,8 @@
 
                         // Append all elements to the card
                         card.appendChild(iconContainer);
-                        card.appendChild(detailsContainer);
                         card.appendChild(statusContainer);
+                        card.appendChild(detailsContainer);
                         card.appendChild(threeDots);
 
                         // Append the card to the main container
