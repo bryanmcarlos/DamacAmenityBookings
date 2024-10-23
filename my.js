@@ -17,7 +17,7 @@ function loadBryanBookings() {
                 const iconContainer = document.createElement("div");
                 iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
-                iconImage.src = "icon.png"; // Replace with your icon image path
+                iconImage.src = "damacBbqImage.png"; // Replace with your icon image path
                 iconContainer.appendChild(iconImage);
 
                 // Details container
@@ -35,7 +35,7 @@ function loadBryanBookings() {
                 const statusContainer = document.createElement("div");
                 statusContainer.className = "status";
                 const statusIcon = document.createElement("img");
-                statusIcon.src = "approved-icon.png"; // Replace with your approved status icon
+                statusIcon.src = "DamacApprovedImage.png"; // Replace with your approved status icon
                 statusContainer.appendChild(statusIcon);
                 const statusText = document.createElement("span");
                 statusText.textContent = booking.Status;
