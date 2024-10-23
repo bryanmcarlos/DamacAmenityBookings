@@ -23,6 +23,7 @@ function addGS() {
     
     fetch(url, {
         method: 'POST',
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
         },
