@@ -48,13 +48,13 @@ h1 {
 /* Details styling */
 .booking-details {
     flex: 1;
+    margin-left: 8px; /* Add margin for spacing after the icon */
 }
 
 .booking-details h2 {
     font-size: 16px;
     font-weight: 500;
     margin: 0 0 8px;
-    padding-left: 8px; /* Adjusted padding for alignment */
 }
 
 /* Field names styling */
