@@ -73,26 +73,21 @@ function loadBryanBookings() {
 function formatDate(dateStr, includeWeekday = true) {
     // Parse the date string as a Date object
     const date = new Date(dateStr);
-    if (isNaN(date)) {
+    if (isNaN(date.getTime())) {
         return "Invalid Date";
     }
 
-    // Define the options for formatting
-    const options = {
-        weekday: includeWeekday ? 'short' : undefined,
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-    };
+    // Get the day, month, and year parts
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = date.toLocaleString('en-GB', { month: 'short' });
+    const year = date.getFullYear();
 
-    // Format the date using the specified options
-    const formattedDate = date.toLocaleDateString('en-GB', options);
-
-    // Adjust formatting to match "Wed, 30-Oct-2024" or "30-Oct-2024"
+    // Format the date with or without the weekday
     if (includeWeekday) {
-        return formattedDate.replace(/, /g, '-').replace(' ', '-');
+        const weekday = date.toLocaleString('en-GB', { weekday: 'short' });
+        return `${weekday}, ${day}-${month}-${year}`;
     } else {
-        return formattedDate.replace(/^[A-Za-z]+, /, '').replace(' ', '-');
+        return `${day}-${month}-${year}`;
     }
 }
 
