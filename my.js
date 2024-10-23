@@ -69,12 +69,19 @@ function loadBryanBookings() {
         });
 }
 
-// Helper function to format the date
+// Helper function to format the date 11111
 function formatDate(dateStr, includeWeekday = true) {
-    // Parse the date string in "YYYY-MM-DD" format
-    const [year, month, day] = dateStr.split("-");
+    // Check if the dateStr matches the expected format "YYYY-MM-DD"
+    const dateParts = dateStr.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (!dateParts) {
+        return "Invalid Date";
+    }
+
+    // Destructure the matched groups into variables
+    const [_, year, month, day] = dateParts;
     const date = new Date(year, month - 1, day);
 
+    // Define the options for formatting
     const options = {
         weekday: includeWeekday ? 'short' : undefined,
         day: '2-digit',
@@ -83,16 +90,13 @@ function formatDate(dateStr, includeWeekday = true) {
     };
 
     // Format the date using the specified options
-    const formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+    const formattedDate = date.toLocaleDateString('en-GB', options);
 
+    // Adjust formatting to match "Wed, 30-Oct-2024" or "30-Oct-2024"
     if (includeWeekday) {
-        // If the weekday is included, format it as "Wed, 30-Oct-2024"
-        const [weekday, day, month, year] = formattedDate.split('-');
-        return `${weekday}, ${day}-${month}-${year}`;
+        return formattedDate.replace(/, /g, '-').replace(' ', '-');
     } else {
-        // If the weekday is not included, format it as "30-Oct-2024"
-        const [, day, month, year] = formattedDate.split('-'); // Remove the weekday part
-        return `${day}-${month}-${year}`;
+        return formattedDate.replace(/^[A-Za-z]+, /, '').replace(' ', '-');
     }
 }
 
