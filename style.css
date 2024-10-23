@@ -1,3 +1,4 @@
+/* General body styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f7f7f7;
@@ -5,11 +6,13 @@ body {
     color: #333;
 }
 
+/* Header style */
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
+/* Button style */
 #btn {
     display: inline-block;
     padding: 10px 20px;
@@ -27,69 +30,63 @@ h1 {
     flex-direction: row;
     align-items: flex-start;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 12px; /* Adjusted radius to match original */
     padding: 16px;
     margin: 16px 0;
     background-color: white;
-    position: relative;
+    position: relative; /* For status alignment */
 }
 
 /* Icon styling */
-.booking-icon img {
-    width: 30px;
-    height: 30px;
-    margin-right: 12px;
-    display: inline-block;
-    vertical-align: middle;
+.booking-icon {
+    width: 32px; /* Adjusted size */
+    height: 32px;
+    margin-right: 12px; /* Adjusted for better alignment */
+    margin-top: 4px; /* Added for vertical alignment */
 }
 
 /* Details styling */
 .booking-details {
     flex: 1;
-    padding-left: 10px;
 }
 
 .booking-details h2 {
     font-size: 16px;
     font-weight: 500;
     margin: 0 0 8px;
-    display: flex;
-    align-items: center;
+    padding-left: 8px; /* Adjusted padding for alignment */
 }
 
-/* Adjust spacing between icon and name */
-.booking-details h2 .amenity-icon {
-    margin-right: 8px;
-}
-
-/* Approved status */
-.status {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    font-size: 12px;
-    color: gray;
-}
-
-.status img {
-    width: 14px;
-    height: 14px;
-    margin-right: 4px;
-}
-
+/* Field names styling */
 .booking-details p {
-    margin: 4px 0;
+    margin: 2px 0;
     font-size: 12px;
-    color: gray;
+    color: #9E9E9E; /* Light gray for the field names */
 }
 
 /* Bold and darker style for values */
 .booking-details .value {
     font-size: 14px;
-    font-weight: 500;
-    color: black;
+    font-weight: 600; /* Slightly bolder */
+    color: #333; /* Darker color for values */
+}
+
+/* Status alignment and style */
+.status {
+    position: absolute;
+    top: 8px; /* Move to the top */
+    right: 16px; /* Align to the right edge */
+    display: flex;
+    align-items: center;
+    font-size: 10px; /* Smaller font size */
+    font-weight: 400; /* Lighter weight */
+    color: #7D7D7D; /* Gray color */
+}
+
+.status img {
+    width: 12px; /* Smaller icon */
+    height: 12px;
+    margin-right: 4px;
 }
 
 /* Flex container for the last line */
