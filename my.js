@@ -38,18 +38,6 @@ function addGS() {
             ServiceRequestNumber: "testServiceRequestNumber",
             Status: "testStatus"
         })
-    })
-    .then(response => response.json())  // Parse JSON response
-    .then(data => {
-        console.log("Success:", data);
-        if (data.status === 200) {
-            alert("Data added successfully");
-        } else {
-            alert("Error: " + data.message);
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
     });
 }
 
