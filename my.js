@@ -39,16 +39,17 @@ function loadBryanBookings() {
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
                     <h2>${booking.AmenityName}</h2>
-                    <p><strong>Booking date:</strong></p> <p class="value">${formatDate(booking.BookingDate)}</p>
-                    <p><strong>Time slot:</strong></p> <p class="value">${booking.TimeSlot}</p>
+                    <p><strong>Booking date</strong></p> <p class="value">${formatDate(booking.BookingDate)}</p>
+                    <p><strong>Time slot</strong></p> <p class="value">${booking.TimeSlot}</p>
                     <div class="flex-row">
                         <div>
-                            <p>Service Req Number:</p>
+                            <p>Service Req Number</p>
                             <p class="value">${booking.ServiceRequestNumber}</p>
                         </div>
                         <div>
-                            <p>Service Req Raised Date:</p>
-                            <p class="value">${formatDate(booking.BookingDate)}</p>
+                            <p>Service Req</p>
+                             <p>Raised Date</p>
+                            <p class="value">${formatDate(booking.BookingDate, false)}</p>
                         </div>
                     </div>
                 `;
@@ -69,10 +70,25 @@ function loadBryanBookings() {
 }
 
 // Helper function to format the date
-function formatDate(dateStr) {
+function formatDate(dateStr, includeWeekday = true) {
     const date = new Date(dateStr);
-    const options = { day: '2-digit', month: 'short', year: 'numeric' };
-    return date.toLocaleDateString(undefined, options);
+    const options = {
+        weekday: includeWeekday ? 'short' : undefined,
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+    };
+    const formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
+
+    if (includeWeekday) {
+        // If the weekday is included, format it as "Wed, 30-Oct-2024"
+        const parts = formattedDate.split('-');
+        return `${parts[0]}, ${parts[1]}-${parts[2]}-${parts[3]}`;
+    } else {
+        // If the weekday is not included, format it as "30-Oct-2024"
+        const parts = formattedDate.split('-').slice(1); // Remove the weekday part
+        return `${parts[0]}-${parts[1]}-${parts[2]}`;
+    }
 }
 
 // Attach the event listener to the button
