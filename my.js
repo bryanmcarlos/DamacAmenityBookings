@@ -9,10 +9,11 @@ function loadBryanBookings() {
             appDiv.innerHTML = "";
 
             bookings.forEach(booking => {
+                // Create the card container
                 const card = document.createElement("div");
                 card.className = "booking-card";
 
-                // Status container
+                // Status container (aligned top right)
                 const statusContainer = document.createElement("div");
                 statusContainer.className = "status";
                 const statusIcon = document.createElement("img");
@@ -23,12 +24,14 @@ function loadBryanBookings() {
                 statusText.textContent = "Approved";
                 statusContainer.appendChild(statusText);
 
-                // Icon container (Only one icon added now)
+                // Icon container (Only one icon with adjusted size)
                 const iconContainer = document.createElement("div");
                 iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
                 iconImage.src = "icon.png";
                 iconImage.alt = "Amenity Icon";
+                iconImage.style.width = "24px"; // Adjust the icon size
+                iconImage.style.height = "24px";
                 iconContainer.appendChild(iconImage);
 
                 // Details container
@@ -36,8 +39,8 @@ function loadBryanBookings() {
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
                     <h2>${booking.AmenityName}</h2>
-                    <p><strong>Booking date:</strong> </p><p class="value">${formatDate(booking.BookingDate)}</p>
-                    <p><strong>Time slot:</strong></p> <p class="value">${booking.TimeSlot}</p>
+                    <p><strong>Booking date:</strong> ${formatDate(booking.BookingDate)}</p>
+                    <p><strong>Time slot:</strong> ${booking.TimeSlot}</p>
                     <div class="flex-row">
                         <div>
                             <p>Service Req Number:</p>
