@@ -31,25 +31,26 @@ h1 {
     padding: 16px;
     margin: 16px 0;
     background-color: white;
+    position: relative;
 }
 
 /* Icon styling */
 .booking-icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 16px;
+    width: 30px; /* Smaller size */
+    height: 30px;
+    margin-right: 12px;
 }
 
 /* Details styling */
 .booking-details {
     flex: 1;
+    padding-left: 8px;
 }
 
 .booking-details h2 {
-    font-size: 14px;
-    font-weight: normal;
+    font-size: 14px; /* Smaller font */
+    font-weight: 500;
     margin: 0 0 8px;
-    color: #333;
 }
 
 .booking-details p {
@@ -58,29 +59,31 @@ h1 {
     color: gray;
 }
 
+/* Bold and darker style for values */
 .booking-details .value {
     font-size: 14px;
-    font-weight: bold;
-    color: #333;
+    font-weight: 500;
+    color: black;
 }
 
 /* Status alignment and style */
 .status {
+    position: absolute;
+    right: 16px;
+    top: 16px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    margin-bottom: 8px;
 }
 
 .status img {
-    width: 16px;
-    height: 16px;
+    width: 12px;
+    height: 12px;
     margin-right: 4px;
 }
 
 .status span {
-    color: green;
-    font-weight: bold;
+    color: gray;
+    font-weight: 500;
     font-size: 12px;
 }
 
@@ -89,5 +92,5 @@ h1 {
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    margin-top: 8px;
+    color: gray;
 }
