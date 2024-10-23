@@ -71,25 +71,31 @@ function loadBryanBookings() {
 
 // Helper function to format the date
 function formatDate(dateStr, includeWeekday = true) {
-    const date = new Date(dateStr);
+    // Parse the date string in "YYYY-MM-DD" format
+    const [year, month, day] = dateStr.split("-");
+    const date = new Date(year, month - 1, day);
+
     const options = {
         weekday: includeWeekday ? 'short' : undefined,
         day: '2-digit',
         month: 'short',
         year: 'numeric'
     };
+
+    // Format the date using the specified options
     const formattedDate = date.toLocaleDateString('en-GB', options).replace(/ /g, '-');
 
     if (includeWeekday) {
         // If the weekday is included, format it as "Wed, 30-Oct-2024"
-        const parts = formattedDate.split('-');
-        return `${parts[0]}, ${parts[1]}-${parts[2]}-${parts[3]}`;
+        const [weekday, day, month, year] = formattedDate.split('-');
+        return `${weekday}, ${day}-${month}-${year}`;
     } else {
         // If the weekday is not included, format it as "30-Oct-2024"
-        const parts = formattedDate.split('-').slice(1); // Remove the weekday part
-        return `${parts[0]}-${parts[1]}-${parts[2]}`;
+        const [, day, month, year] = formattedDate.split('-'); // Remove the weekday part
+        return `${day}-${month}-${year}`;
     }
 }
+
 
 // Attach the event listener to the button
 document.getElementById("btn").addEventListener("click", loadBryanBookings);
