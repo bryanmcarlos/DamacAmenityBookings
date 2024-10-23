@@ -23,11 +23,12 @@ function loadBryanBookings() {
                 statusText.textContent = "Approved";
                 statusContainer.appendChild(statusText);
 
-                // Icon container
+                // Icon container (Only one icon added now)
                 const iconContainer = document.createElement("div");
                 iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
                 iconImage.src = "icon.png";
+                iconImage.alt = "Amenity Icon";
                 iconContainer.appendChild(iconImage);
 
                 // Details container
