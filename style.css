@@ -1,3 +1,26 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f7f7f7;
+    padding: 20px;
+    color: #333;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f0c040;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
 /* Container for each booking */
 .booking-card {
     display: flex;
@@ -23,9 +46,10 @@
 }
 
 .booking-details h2 {
-    font-size: 16px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: normal;
     margin: 0 0 8px;
+    color: #333;
 }
 
 .booking-details p {
@@ -34,18 +58,18 @@
     color: gray;
 }
 
-/* Bold and darker style for values */
 .booking-details .value {
     font-size: 14px;
-    font-weight: 500;
-    color: black;
+    font-weight: bold;
+    color: #333;
 }
 
 /* Status alignment and style */
 .status {
     display: flex;
     align-items: center;
-    margin-left: auto;
+    justify-content: flex-end;
+    margin-bottom: 8px;
 }
 
 .status img {
@@ -56,7 +80,7 @@
 
 .status span {
     color: green;
-    font-weight: 500;
+    font-weight: bold;
     font-size: 12px;
 }
 
@@ -65,5 +89,5 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    color: gray;
+    margin-top: 8px;
 }
