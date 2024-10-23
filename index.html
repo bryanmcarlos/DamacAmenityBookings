@@ -3,16 +3,177 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings Viewer</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Upcoming Bookings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        #btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #f0c040;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .booking-card {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .booking-icon {
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .booking-icon img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .booking-details {
+            flex: 1;
+        }
+
+        .booking-details h2 {
+            font-size: 16px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .booking-details p {
+            font-size: 12px;
+            margin: 5px 0;
+            color: #888;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            font-size: 12px;
+        }
+
+        .status img {
+            width: 16px;
+            height: 16px;
+            margin-right: 5px;
+        }
+
+        .three-dots {
+            margin-left: auto;
+            cursor: pointer;
+        }
+
+        .three-dots::before {
+            content: "⋮";
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
 </head>
 <body>
     <h1>Upcoming Bookings</h1>
     <button id="btn">Load Bookings</button>
     <div id="app"></div>
 
-    <!-- Move the script to the end of the body -->
-    <script src="my.js"></script>
-</body>
+    <script>
+        function loadBryanBookings() {
+            const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec";
 
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const bookings = data[0].data;
+                    const appDiv = document.getElementById("app");
+                    appDiv.innerHTML = "";
+
+                    bookings.forEach(booking => {
+                        // Create the card container
+                        const card = document.createElement("div");
+                        card.className = "booking-card";
+
+                        // Icon container
+                        const iconContainer = document.createElement("div");
+                        iconContainer.className = "booking-icon";
+                        const iconImage = document.createElement("img");
+                        iconImage.src = "icon.png"; // Replace with your icon path
+                        iconContainer.appendChild(iconImage);
+
+                        // Details container
+                        const detailsContainer = document.createElement("div");
+                        detailsContainer.className = "booking-details";
+                        detailsContainer.innerHTML = `
+                            <h2>${booking.AmenityName}</h2>
+                            <p>Booking date: ${formatDate(booking.BookingDate)}</p>
+                            <p>Time slot: ${booking.TimeSlot}</p>
+                            <p>Service Req Number: ${booking.ServiceRequestNumber}</p>
+                            <p>Service Req Raised Date: ${formatShortDate(booking.BookingDate)}</p>
+                        `;
+
+                        // Status container
+                        const statusContainer = document.createElement("div");
+                        statusContainer.className = "status";
+                        const statusIcon = document.createElement("img");
+                        statusIcon.src = "approved-icon.png"; // Replace with your approved status icon path
+                        statusContainer.appendChild(statusIcon);
+                        const statusText = document.createElement("span");
+                        statusText.textContent = "Approved";
+                        statusText.style.color = "green";
+                        statusContainer.appendChild(statusText);
+
+                        // Three dots icon
+                        const threeDots = document.createElement("div");
+                        threeDots.className = "three-dots";
+
+                        // Append all elements to the card
+                        card.appendChild(iconContainer);
+                        card.appendChild(detailsContainer);
+                        card.appendChild(statusContainer);
+                        card.appendChild(threeDots);
+
+                        // Append the card to the main container
+                        appDiv.appendChild(card);
+                    });
+                })
+                .catch(error => {
+                    console.error("Error loading bookings:", error);
+                    document.getElementById("app").textContent = "Error loading bookings.";
+                });
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString(undefined, options);
+        }
+
+        function formatShortDate(dateStr) {
+            const date = new Date(dateStr);
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return date.toLocaleDateString(undefined, options);
+        }
+
+        document.getElementById("btn").addEventListener("click", loadBryanBookings);
+    </script>
+</body>
 </html>
