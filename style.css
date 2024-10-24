@@ -78,15 +78,15 @@ h1 {
     right: 16px;
     display: flex;
     align-items: center;
-    font-size: 10px;
+    font-size: 14px;
     font-weight: 400;
     color: #7D7D7D;
 }
 
 .status img {
-    width: 14px; /* Adjusted smaller icon size */
-    height: 14px;
-    margin-right: 4px;
+    width: 30px;
+    height: 25px;
+    margin-right: 5px;
 }
 
 /* Flex container for the last line */
