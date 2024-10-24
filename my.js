@@ -4,7 +4,24 @@ function loadBryanBookings() {
     fetch(url)
         .then(response => response.json())
         .then(data => {
+            // Retrieve the bookings and sort them by date and time
             const bookings = data[0].data;
+
+            // Sort bookings by booking date and time
+            bookings.sort((a, b) => {
+                const dateA = new Date(a.BookingDate);
+                const dateB = new Date(b.BookingDate);
+                const timeA = a.TimeSlot.split(" - ")[0]; // Extract start time
+                const timeB = b.TimeSlot.split(" - ")[0];
+
+                // Convert times to Date objects for sorting
+                const timeDateA = new Date(`1970-01-01T${timeA}:00`);
+                const timeDateB = new Date(`1970-01-01T${timeB}:00`);
+
+                // First, compare by date; if they are equal, compare by time
+                return dateA - dateB || timeDateA - timeDateB;
+            });
+
             const appDiv = document.getElementById("app");
             appDiv.innerHTML = "";
 
@@ -33,10 +50,10 @@ function loadBryanBookings() {
                 iconContainer.appendChild(iconImage);
 
                 const menuIcon = document.createElement("div");
-                    menuIcon.className = "menu-icon";
-                    menuIcon.innerHTML = `
-                        <span>⋮</span>
-                    `;
+                menuIcon.className = "menu-icon";
+                menuIcon.innerHTML = `
+                    <span>⋮</span>
+                `;
 
                 // Details container
                 const detailsContainer = document.createElement("div");
@@ -46,10 +63,10 @@ function loadBryanBookings() {
                     <p style="margin-bottom: 6px;">Booking date</p>
                     <p class="valueDiv" style="margin-bottom: 24px;">${formatDate(booking.BookingDate, true)}</p>
                     <p style="margin-bottom: 6px;">Time slot</p>
-                    <p class="valueDiv" style="margin-bottom: 16px;">${booking.TimeSlot}</p>
+                    <p class="valueDiv" style="margin-bottom: 16px;">${formatTimeSlot(booking.TimeSlot)}</p>
                     <div class="flex-row">
                         <div>
-                            <p style="margin-bottom: 6px;">Service Req Number:</p>
+                            <p style="margin-bottom: 6px;">Service Req Number</p>
                             <p class="valueDiv">${booking.ServiceRequestNumber}</p>
                         </div>
                         <div class="ServiceReqDiv">
@@ -97,6 +114,32 @@ function formatDate(dateStr, includeWeekday = true) {
     }
 }
 
+function formatTimeSlot(timeSlot) {
+    // Split the time slot into start and end times
+    const [startTime, endTime] = timeSlot.split(" - ");
+
+    // Convert each time from 24-hour format to 12-hour format
+    const start12Hour = convertTo12Hour(startTime);
+    const end12Hour = convertTo12Hour(endTime);
+
+    // Return the formatted time slot
+    return `${start12Hour} - ${end12Hour}`;
+}
+
+// Helper function to convert a single time to 12-hour format
+function convertTo12Hour(time) {
+    // Split the time into hours and minutes
+    const [hour, minute] = time.split(":").map(Number);
+
+    // Determine AM or PM suffix
+    const amPm = hour >= 12 ? "PM" : "AM";
+
+    // Convert the hour to 12-hour format
+    const hour12 = hour % 12 || 12; // Convert '0' hour to '12'
+
+    // Return the formatted time
+    return `${String(hour12).padStart(2, '0')}:${minute} ${amPm}`;
+}
 
 // Attach the event listener to the button
 document.getElementById("btn").addEventListener("click", loadBryanBookings);
