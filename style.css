@@ -39,10 +39,10 @@ h1 {
 
 /* Icon styling */
 .booking-icon img {
-    width: 24px; /* Set icon size to be smaller */
-    height: 24px;
+    width: 46px;
+    height: 43px;
     margin-right: 12px;
-    margin-top: 4px;
+    margin-top: 20px;
 }
 
 /* Details styling */
@@ -52,16 +52,20 @@ h1 {
 }
 
 .booking-details h2 {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 22 0 22px;
+    font-size: 14px;
+    font-weight: 590;
+    margin: 32px -8px 26px;
+    letter-spacing: 1px;
 }
 
 /* Field names styling */
 .booking-details p {
-    margin: 2px 0;
-    font-size: 12px;
+    margin: 6px -4px;
+    letter-spacing: 1px;
+    font-size: 13px;
     color: #9E9E9E;
+    font-weight: 300;
+}
 }
 
 /* Bold and darker style for values */
