@@ -1,11 +1,19 @@
-function loadBryanBookings() {
+function loadBryanBookings(filterDate = null) {
     const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec";
 
     fetch(url)
         .then(response => response.json())
         .then(data => {
             // Retrieve the bookings and sort them by date and time
-            const bookings = data[0].data;
+            let bookings = data[0].data;
+
+            // If a filter date is provided, filter the bookings based on that date
+            if (filterDate) {
+                bookings = bookings.filter(booking => {
+                    const bookingDate = new Date(booking.BookingDate).toISOString().split('T')[0];
+                    return bookingDate === filterDate;
+                });
+            }
 
             // Sort bookings by booking date and time
             bookings.sort((a, b) => {
@@ -15,10 +23,10 @@ function loadBryanBookings() {
                 const timeB = b.TimeSlot.split(" - ")[0];
 
                 // Convert times to Date objects for sorting
-                const timeDateA = new Date(`1970-01-01T${timeA}:00`);
-                const timeDateB = new Date(`1970-01-01T${timeB}:00`);
+                const timeDateA = new Date(`${dateA.toISOString().split('T')[0]}T${timeA}:00`);
+                const timeDateB = new Date(`${dateB.toISOString().split('T')[0]}T${timeB}:00`);
 
-                // First, compare by date; if they are equal, compare by time
+                // Compare by date first, then by time if dates are equal
                 return dateA - dateB || timeDateA - timeDateB;
             });
 
@@ -94,18 +102,15 @@ function loadBryanBookings() {
 
 // Helper function to format the date
 function formatDate(dateStr, includeWeekday = true) {
-    // Parse the date string as a Date object
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
         return "Invalid Date";
     }
 
-    // Get the day, month, and year parts
     const day = String(date.getDate()).padStart(2, '0');
     const month = date.toLocaleString('en-GB', { month: 'short' });
     const year = date.getFullYear();
 
-    // Format the date with or without the weekday
     if (includeWeekday) {
         const weekday = date.toLocaleString('en-GB', { weekday: 'short' });
         return `${weekday}, ${day}-${month}-${year}`;
@@ -115,31 +120,26 @@ function formatDate(dateStr, includeWeekday = true) {
 }
 
 function formatTimeSlot(timeSlot) {
-    // Split the time slot into start and end times
     const [startTime, endTime] = timeSlot.split(" - ");
-
-    // Convert each time from 24-hour format to 12-hour format
     const start12Hour = convertTo12Hour(startTime);
     const end12Hour = convertTo12Hour(endTime);
-
-    // Return the formatted time slot
     return `${start12Hour} - ${end12Hour}`;
 }
 
-// Helper function to convert a single time to 12-hour format
 function convertTo12Hour(time) {
-    // Split the time into hours and minutes
     const [hour, minute] = time.split(":").map(Number);
-
-    // Determine AM or PM suffix
     const amPm = hour >= 12 ? "PM" : "AM";
-
-    // Convert the hour to 12-hour format
-    const hour12 = hour % 12 || 12; // Convert '0' hour to '12'
-
-    // Return the formatted time
+    const hour12 = hour % 12 || 12;
     return `${String(hour12).padStart(2, '0')}:${minute} ${amPm}`;
 }
 
 // Attach the event listener to the button
-document.getElementById("btn").addEventListener("click", loadBryanBookings);
+document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
+document.getElementById("btn-today").addEventListener("click", () => {
+    const today = new Date().toISOString().split('T')[0];
+    loadBryanBookings(today);
+});
+document.getElementById("btn-tomorrow").addEventListener("click", () => {
+    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    loadBryanBookings(tomorrow);
+});
