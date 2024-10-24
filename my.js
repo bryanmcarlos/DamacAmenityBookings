@@ -138,12 +138,14 @@ function convertTo12Hour(time) {
     // Convert the hour to 12-hour format
     const hour12 = hour % 12 || 12; // Convert '0' hour to '12'
 
-    // Pad the minute value to ensure it is always two digits
+    // Pad the hour and minute values to ensure they are always two digits
+    const paddedHour = String(hour12).padStart(2, '0');
     const paddedMinute = String(minute).padStart(2, '0');
 
     // Return the formatted time
-    return `${String(hour12)}:${paddedMinute} ${amPm}`;
+    return `${paddedHour}:${paddedMinute} ${amPm}`;
 }
+
 
 
 // Attach the event listener to the button
