@@ -126,12 +126,25 @@ function formatTimeSlot(timeSlot) {
     return `${start12Hour} - ${end12Hour}`;
 }
 
+
+
 function convertTo12Hour(time) {
+    // Split the time into hours and minutes
     const [hour, minute] = time.split(":").map(Number);
+
+    // Determine AM or PM suffix
     const amPm = hour >= 12 ? "PM" : "AM";
-    const hour12 = hour % 12 || 12;
-    return `${String(hour12).padStart(2, '0')}:${minute} ${amPm}`;
+
+    // Convert the hour to 12-hour format
+    const hour12 = hour % 12 || 12; // Convert '0' hour to '12'
+
+    // Pad the minute value to ensure it is always two digits
+    const paddedMinute = String(minute).padStart(2, '0');
+
+    // Return the formatted time
+    return `${String(hour12)}:${paddedMinute} ${amPm}`;
 }
+
 
 // Attach the event listener to the button
 document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
