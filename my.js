@@ -71,7 +71,7 @@ function loadBryanBookings(filterDate = null) {
                         <div class="ServiceReqDiv">
                             <p>Service Req</p>
                             <p style="margin-bottom: 6px;">Raised Date</p>
-                            <p class="valueDiv">${formatDate(booking.BookingDate, false)}</p>
+                            <p class="valueDiv">${formatDate(booking.CreationDate, false)}</p>
                         </div>
                     </div>
                 `;
