@@ -30,8 +30,6 @@ function loadBryanBookings() {
                 const iconImage = document.createElement("img");
                 iconImage.src = "icon.png";
                 iconImage.alt = "Amenity Icon";
-                iconImage.style.width = "24px"; // Adjust the icon size
-                iconImage.style.height = "24px";
                 iconContainer.appendChild(iconImage);
 
                 // Details container
