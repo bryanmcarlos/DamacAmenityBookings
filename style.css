@@ -75,6 +75,14 @@ h1 {
     color: #333;
 }
 
+/* If needed, you can make it more specific */
+.booking-details .valueDiv {
+    font-size: 14px;
+    font-weight: 300;
+    color: #333;
+}
+
+
 .ServiceReqDiv {
     margin-left: 35px;
 }
