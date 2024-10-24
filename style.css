@@ -69,11 +69,14 @@ h1 {
 }
 
 /* Bold and darker style for values */
-.booking-details .value {
+.value {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 300;
     color: #333;
 }
+
+#app > div:nth-child(1) > div.booking-details > p:nth-child(10)
+
 
 /* Status alignment and style */
 .status {
@@ -96,7 +99,8 @@ h1 {
 /* Flex container for the last line */
 .flex-row {
     display: flex;
-    justify-content: space-between;
-    font-size: 12px;
     color: gray;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: baseline;
 }
