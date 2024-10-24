@@ -60,11 +60,11 @@ h1 {
 
 /* Field names styling */
 .booking-details p {
-    margin: 6px -4px;
+    margin: 8px -9px;
     letter-spacing: 1px;
     font-size: 13px;
     color: #9E9E9E;
-    font-weight: 300;
+    font-weight: 100;
 }
 }
 
