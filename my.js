@@ -37,8 +37,8 @@ function loadBryanBookings() {
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
                     <h2>${booking.AmenityName}</h2>
-                    <p>Booking date</p> <p class="value" style="margin-bottom: 10px;">${formatDate(booking.BookingDate)}</p>
-                    <p>Time slot</p> <p class="value" style="margin-bottom: 10px;">${booking.TimeSlot}</p>
+                    <p>Booking date</p> <p class="value" style="margin-bottom: 24px;">${formatDate(booking.BookingDate)}</p>
+                    <p>Time slot</p> <p class="value" style="margin-bottom: 16px;">${booking.TimeSlot}</p>
                     <div class="flex-row">
                         <div>
                             <p>Service Req Number</p>
