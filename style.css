@@ -142,3 +142,31 @@ h1 {
     flex-wrap: nowrap;
     align-items: baseline;
 }
+
+
+
+
+/* Loading spinner styling */
+#loading-spinner {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+.loading-ball {
+    width: 50px;
+    height: 50px;
+    animation: bounce 1s infinite ease-in-out;
+}
+
+/* Bouncing animation for the tennis ball */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-30px);
+    }
+}

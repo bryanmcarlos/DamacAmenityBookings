@@ -1,13 +1,15 @@
 function loadBryanBookings(filterDate = null) {
     const url = "https://script.google.com/macros/s/AKfycbyzr9VlVCT2CzkquXtBMryGhxGZx6HOMzKDGO_6OLWleeY0fmSdXFz4nEHKFAz-vTCmpQ/exec";
 
+    // Show the loading spinner
+    const spinner = document.getElementById("loading-spinner");
+    spinner.style.display = "block";
+
     fetch(url)
         .then(response => response.json())
         .then(data => {
-            // Retrieve the bookings and sort them by date and time
             let bookings = data[0].data;
 
-            // If a filter date is provided, filter the bookings based on that date
             if (filterDate) {
                 bookings = bookings.filter(booking => {
                     const bookingDate = new Date(booking.BookingDate).toISOString().split('T')[0];
@@ -15,18 +17,13 @@ function loadBryanBookings(filterDate = null) {
                 });
             }
 
-            // Sort bookings by booking date and time
             bookings.sort((a, b) => {
                 const dateA = new Date(a.BookingDate);
                 const dateB = new Date(b.BookingDate);
-                const timeA = a.TimeSlot.split(" - ")[0]; // Extract start time
+                const timeA = a.TimeSlot.split(" - ")[0];
                 const timeB = b.TimeSlot.split(" - ")[0];
-
-                // Convert times to Date objects for sorting
                 const timeDateA = new Date(`${dateA.toISOString().split('T')[0]}T${timeA}:00`);
                 const timeDateB = new Date(`${dateB.toISOString().split('T')[0]}T${timeB}:00`);
-
-                // Compare by date first, then by time if dates are equal
                 return dateA - dateB || timeDateA - timeDateB;
             });
 
@@ -34,11 +31,9 @@ function loadBryanBookings(filterDate = null) {
             appDiv.innerHTML = "";
 
             bookings.forEach(booking => {
-                // Create the card container
                 const card = document.createElement("div");
                 card.className = "booking-card";
 
-                // Status container (aligned top right)
                 const statusContainer = document.createElement("div");
                 statusContainer.className = "status";
                 const statusIcon = document.createElement("img");
@@ -49,7 +44,6 @@ function loadBryanBookings(filterDate = null) {
                 statusText.textContent = "Approved";
                 statusContainer.appendChild(statusText);
 
-                // Icon container (Only one icon with adjusted size)
                 const iconContainer = document.createElement("div");
                 iconContainer.className = "booking-icon";
                 const iconImage = document.createElement("img");
@@ -59,11 +53,8 @@ function loadBryanBookings(filterDate = null) {
 
                 const menuIcon = document.createElement("div");
                 menuIcon.className = "menu-icon";
-                menuIcon.innerHTML = `
-                    <span>⋮</span>
-                `;
+                menuIcon.innerHTML = `<span>⋮</span>`;
 
-                // Details container
                 const detailsContainer = document.createElement("div");
                 detailsContainer.className = "booking-details";
                 detailsContainer.innerHTML = `
@@ -85,32 +76,30 @@ function loadBryanBookings(filterDate = null) {
                     </div>
                 `;
 
-                // Append all elements to the card
                 card.appendChild(statusContainer);
                 card.appendChild(iconContainer);
                 card.appendChild(detailsContainer);
-
-                // Append the card to the main container
                 appDiv.appendChild(card);
             });
+
+            // Hide the loading spinner after loading is complete
+            spinner.style.display = "none";
         })
         .catch(error => {
             console.error("Error loading bookings:", error);
             document.getElementById("app").textContent = "Error loading bookings.";
+            spinner.style.display = "none"; // Hide spinner in case of error
         });
 }
 
-// Helper function to format the date
 function formatDate(dateStr, includeWeekday = true) {
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
         return "Invalid Date";
     }
-
     const day = String(date.getDate()).padStart(2, '0');
     const month = date.toLocaleString('en-GB', { month: 'short' });
     const year = date.getFullYear();
-
     if (includeWeekday) {
         const weekday = date.toLocaleString('en-GB', { weekday: 'short' });
         return `${weekday}, ${day}-${month}-${year}`;
@@ -126,27 +115,14 @@ function formatTimeSlot(timeSlot) {
     return `${start12Hour} - ${end12Hour}`;
 }
 
-
-
 function convertTo12Hour(time) {
-    // Split the time into hours and minutes
     const [hour, minute] = time.split(":").map(Number);
-
-    // Determine AM or PM suffix
     const amPm = hour >= 12 ? "PM" : "AM";
-
-    // Convert the hour to 12-hour format
-    const hour12 = hour % 12 || 12; // Convert '0' hour to '12'
-
-    // Pad the hour and minute values to ensure they are always two digits
+    const hour12 = hour % 12 || 12;
     const paddedHour = String(hour12).padStart(2, '0');
     const paddedMinute = String(minute).padStart(2, '0');
-
-    // Return the formatted time
     return `${paddedHour}:${paddedMinute} ${amPm}`;
 }
-
-
 
 // Attach the event listener to the button
 document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
