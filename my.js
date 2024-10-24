@@ -124,13 +124,23 @@ function convertTo12Hour(time) {
     return `${paddedHour}:${paddedMinute} ${amPm}`;
 }
 
-// Attach the event listener to the button
+// Helper function to get the local date in "YYYY-MM-DD" format
+function getLocalDate(offsetDays = 0) {
+    const date = new Date();
+    date.setDate(date.getDate() + offsetDays); // Apply offset if needed
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+// Attach the event listener to the buttons
 document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
 document.getElementById("btn-today").addEventListener("click", () => {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getLocalDate();
     loadBryanBookings(today);
 });
 document.getElementById("btn-tomorrow").addEventListener("click", () => {
-    const tomorrow = new Date(Date.now() + 86400000).toISOString().split('T')[0];
+    const tomorrow = getLocalDate(1); // Get tomorrow's date by adding one day
     loadBryanBookings(tomorrow);
 });
