@@ -32,6 +32,12 @@ function loadBryanBookings() {
                 iconImage.alt = "Amenity Icon";
                 iconContainer.appendChild(iconImage);
 
+                const menuIcon = document.createElement("div");
+                    menuIcon.className = "menu-icon";
+                    menuIcon.innerHTML = `
+                        <span>⋮</span>
+                    `;
+
                 // Details container
                 const detailsContainer = document.createElement("div");
                 detailsContainer.className = "booking-details";
