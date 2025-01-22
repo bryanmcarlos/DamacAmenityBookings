@@ -68,9 +68,7 @@ function loadBryanBookings(filterDate = null) {
                         <div>
                             <p style="margin-bottom: 6px;">Service Req Number</p>
                             <p class="valueDiv">${booking.ServiceRequestNumber}</p>
-                            <p class="valueDiv">${accountCode}</p>
-                            <p style="margin-bottom: 6px;">Account Code</p>
-                            <p class="valueDiv">${accountCode}</p>
+                            <p class="valueDiv">${booking.Account}</p>
                         </div>
                         <div class="ServiceReqDiv">
                             <p>Service Req</p>
