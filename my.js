@@ -31,6 +31,7 @@ function loadBryanBookings(filterDate = null) {
             appDiv.innerHTML = "";
 
             bookings.forEach(booking => {
+                const accountCode = getAccountCode(booking.Account);
                 const card = document.createElement("div");
                 card.className = "booking-card";
 
@@ -67,6 +68,7 @@ function loadBryanBookings(filterDate = null) {
                         <div>
                             <p style="margin-bottom: 6px;">Service Req Number</p>
                             <p class="valueDiv">${booking.ServiceRequestNumber}</p>
+                            <p class="valueDiv">${accountCode}</p>
                         </div>
                         <div class="ServiceReqDiv">
                             <p>Service Req</p>
@@ -135,6 +137,16 @@ function getLocalDate(offsetDays = 0) {
     const day = String(date.getDate()).padStart(2, '0');
     
     return `${year}-${month}-${day}`;
+}
+
+function getAccountCode(accountValue) {
+    const accountMap = {
+        "0011n00002WA7zxAAD": "R",
+        "0010700000UJGkMAAX": "B",
+        "0010700000P2RCfAAN": "J"
+    };
+
+    return accountMap[accountValue] || "Unknown"; // Return mapped value or "Unknown" if not found
 }
 
 // Attach the event listener to the buttons
