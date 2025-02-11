@@ -13,7 +13,7 @@ function loadBryanBookings(filterDate = null) {
             if (filterDate) {
                 bookings = bookings.filter(booking => {
                     const bookingDate = new Date(booking.BookingDate).toISOString().split('T')[0];
-                    return bookingDate === filterDate -1;
+                    return bookingDate === filterDate;
                 });
             }
 
@@ -168,11 +168,11 @@ document.getElementById("btn").addEventListener("click", () => {
 });
 document.getElementById("btn-today").addEventListener("click", () => {
     hideDatePicker();
-    loadBryanBookings(getLocalDate());
+    loadBryanBookings(getLocalDate(-1));
 });
 document.getElementById("btn-tomorrow").addEventListener("click", () => {
     hideDatePicker();
-    loadBryanBookings(getLocalDate(1));
+    loadBryanBookings(getLocalDate());
 });
 
 // Show the date picker when clicking on the calendar
