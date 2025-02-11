@@ -46,6 +46,17 @@ h1 {
     margin-bottom: 20px;
 }
 
+#btn-calendar {
+    display: inline-block;
+    padding: 6px 10px;
+    background-color: #f0c040;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+
 /* Container for each booking */
 .booking-card {
     display: flex;

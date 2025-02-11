@@ -17,14 +17,11 @@ function loadBryanBookings(filterDate = null) {
                 });
             }
 
+            // Sort bookings from newest to oldest
             bookings.sort((a, b) => {
                 const dateA = new Date(a.BookingDate);
                 const dateB = new Date(b.BookingDate);
-                const timeA = a.TimeSlot.split(" - ")[0];
-                const timeB = b.TimeSlot.split(" - ")[0];
-                const timeDateA = new Date(`${dateA.toISOString().split('T')[0]}T${timeA}:00`);
-                const timeDateB = new Date(`${dateB.toISOString().split('T')[0]}T${timeB}:00`);
-                return dateA - dateB || timeDateA - timeDateB;
+                return dateB - dateA; // Newest first
             });
 
             const appDiv = document.getElementById("app");
@@ -94,6 +91,7 @@ function loadBryanBookings(filterDate = null) {
         });
 }
 
+// Helper function for date formatting
 function formatDate(dateStr, includeWeekday = true) {
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
@@ -110,6 +108,7 @@ function formatDate(dateStr, includeWeekday = true) {
     }
 }
 
+// Convert time slots to 12-hour format
 function formatTimeSlot(timeSlot) {
     const [startTime, endTime] = timeSlot.split(" - ");
     const start12Hour = convertTo12Hour(startTime);
@@ -121,40 +120,52 @@ function convertTo12Hour(time) {
     const [hour, minute] = time.split(":").map(Number);
     const amPm = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
-    const paddedHour = String(hour12).padStart(2, '0');
-    const paddedMinute = String(minute).padStart(2, '0');
-    return `${paddedHour}:${paddedMinute} ${amPm}`;
+    return `${String(hour12).padStart(2, '0')}:${String(minute).padStart(2, '0')} ${amPm}`;
 }
 
+// Get local date in "YYYY-MM-DD" format
 function getLocalDate(offsetDays = 0) {
     const date = new Date();
     date.setDate(date.getDate() + offsetDays);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
+    return date.toISOString().split('T')[0]; // Ensuring proper date format
 }
 
+// Map account IDs to codes
 function getAccountCode(accountValue) {
     const accountMap = {
         "0011n00002WA7zxAAD": "R",
         "0010700000UJGkMAAX": "B",
         "0010700000P2RCfAAN": "J"
     };
-    return accountMap[accountValue] || "Unknown";
+    return accountMap[accountValue] || "Unknown"; // Return mapped value or "Unknown" if not found
+}
+
+// Handle date picker event
+document.getElementById("datePicker").addEventListener("change", function() {
+    loadBryanBookings(this.value);
+});
+
+// Hide the date picker on button clicks
+function hideDatePicker() {
+    document.getElementById("datePicker").style.display = "none";
 }
 
 // Attach event listeners
-document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
-document.getElementById("btn-today").addEventListener("click", () => loadBryanBookings(getLocalDate(-1)));
-document.getElementById("btn-tomorrow").addEventListener("click", () => loadBryanBookings(getLocalDate()));
-
-// Calendar button event
-document.getElementById("btn-calendar").addEventListener("click", () => {
-    document.getElementById("date-picker").style.display = "block";
+document.getElementById("btn").addEventListener("click", () => {
+    hideDatePicker();
+    loadBryanBookings();
+});
+document.getElementById("btn-today").addEventListener("click", () => {
+    hideDatePicker();
+    loadBryanBookings(getLocalDate());
+});
+document.getElementById("btn-tomorrow").addEventListener("click", () => {
+    hideDatePicker();
+    loadBryanBookings(getLocalDate(1));
 });
 
-// When a date is selected, filter bookings by that date
-document.getElementById("date-picker").addEventListener("change", (event) => {
-    loadBryanBookings(event.target.value);
+// Show the date picker when clicking on the calendar
+document.getElementById("btn").insertAdjacentHTML('afterend', '<button id="calendarBtn">📅 Select Date</button>');
+document.getElementById("calendarBtn").addEventListener("click", () => {
+    document.getElementById("datePicker").style.display = "block";
 });
