@@ -12,8 +12,8 @@ function loadBryanBookings(filterDate = null) {
 
             if (filterDate) {
                 bookings = bookings.filter(booking => {
-                    const bookingDate = new Date(booking.BookingDate).toISOString().split('T')[0];
-                    return bookingDate === filterDate -1;
+                    const bookingDate = new Date(booking.BookingDate).toISOString().split('T')[-1];
+                    return bookingDate === filterDate;
                 });
             }
 
