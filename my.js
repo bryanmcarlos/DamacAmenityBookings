@@ -177,7 +177,7 @@ document.getElementById("btn-tomorrow").addEventListener("click", () => {
 });
 
 // Show the date picker when clicking on the calendar
-document.getElementById("btn").insertAdjacentHTML('afterend', '<button id="calendarBtn">📅 Select Date</button>');
+document.getElementById("btn-tomorrow").insertAdjacentHTML('afterend', '<button id="calendarBtn">📅 Select Date</button>');
 document.getElementById("calendarBtn").addEventListener("click", () => {
-    document.getElementById("datePicker").style.display = "block";
+    document.getElementById("datePicker").style.display = "none";
 });
