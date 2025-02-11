@@ -126,16 +126,12 @@ function convertTo12Hour(time) {
     return `${paddedHour}:${paddedMinute} ${amPm}`;
 }
 
-// Helper function to get the local date in "YYYY-MM-DD" format
 function getLocalDate(offsetDays = 0) {
     const date = new Date();
     date.setDate(date.getDate() + offsetDays);
-
-    // Get year, month, and date using local time methods to ensure the correct local date
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-    
     return `${year}-${month}-${day}`;
 }
 
@@ -145,17 +141,20 @@ function getAccountCode(accountValue) {
         "0010700000UJGkMAAX": "B",
         "0010700000P2RCfAAN": "J"
     };
-
-    return accountMap[accountValue] || "Unknown"; // Return mapped value or "Unknown" if not found
+    return accountMap[accountValue] || "Unknown";
 }
 
-// Attach the event listener to the buttons
+// Attach event listeners
 document.getElementById("btn").addEventListener("click", () => loadBryanBookings());
-document.getElementById("btn-today").addEventListener("click", () => {
-    const today = getLocalDate(-1); // Get today's local date
-    loadBryanBookings(today);
+document.getElementById("btn-today").addEventListener("click", () => loadBryanBookings(getLocalDate(-1)));
+document.getElementById("btn-tomorrow").addEventListener("click", () => loadBryanBookings(getLocalDate()));
+
+// Calendar button event
+document.getElementById("btn-calendar").addEventListener("click", () => {
+    document.getElementById("date-picker").style.display = "block";
 });
-document.getElementById("btn-tomorrow").addEventListener("click", () => {
-    const tomorrow = getLocalDate(); // Get tomorrow's local date
-    loadBryanBookings(tomorrow);
+
+// When a date is selected, filter bookings by that date
+document.getElementById("date-picker").addEventListener("change", (event) => {
+    loadBryanBookings(event.target.value);
 });
