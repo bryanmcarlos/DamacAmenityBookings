@@ -17,11 +17,14 @@ function loadBryanBookings(filterDate = null) {
                 });
             }
 
-            // Sort bookings from newest to oldest
+            // Sorting bookings first by date, then by time in ascending order
             bookings.sort((a, b) => {
                 const dateA = new Date(a.BookingDate);
                 const dateB = new Date(b.BookingDate);
-                return dateB - dateA; // Newest first
+                const timeA = get24HourTime(a.TimeSlot.split(" - ")[0]);
+                const timeB = get24HourTime(b.TimeSlot.split(" - ")[0]);
+
+                return dateA - dateB || timeA - timeB; // Sort by date first, then time
             });
 
             const appDiv = document.getElementById("app");
@@ -91,7 +94,20 @@ function loadBryanBookings(filterDate = null) {
         });
 }
 
-// Helper function for date formatting
+// Function to get the correct 24-hour time format for sorting
+function get24HourTime(timeStr) {
+    const [hour, minute] = timeStr.split(":").map(Number);
+    return hour * 60 + minute; // Convert to total minutes for comparison
+}
+
+// Fixes the date picker issue ensuring it works with correct offsets
+document.getElementById("datePicker").addEventListener("change", function() {
+    const selectedDate = new Date(this.value);
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Ensure correct format
+    loadBryanBookings(formattedDate);
+});
+
+// Function to format dates properly
 function formatDate(dateStr, includeWeekday = true) {
     const date = new Date(dateStr);
     if (isNaN(date.getTime())) {
@@ -139,11 +155,6 @@ function getAccountCode(accountValue) {
     };
     return accountMap[accountValue] || "Unknown"; // Return mapped value or "Unknown" if not found
 }
-
-// Handle date picker event
-document.getElementById("datePicker").addEventListener("change", function() {
-    loadBryanBookings(this.value);
-});
 
 // Hide the date picker on button clicks
 function hideDatePicker() {
