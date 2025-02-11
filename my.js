@@ -102,9 +102,8 @@ function get24HourTime(timeStr) {
 
 // Fixes the date picker issue ensuring it works with correct offsets
 document.getElementById("datePicker").addEventListener("change", function() {
-    const selectedDate = new Date(this.value);
-    const adjSelectedDate = selectedDate - 1
-    const formattedDate = adjSelectedDate.toISOString().split('T')[0]; // Ensure correct format
+    const selectedDate = new Date(this.value.getDate() -1);
+    const formattedDate = selectedDate.toISOString().split('T')[0]; // Ensure correct format
     loadBryanBookings(formattedDate);
 });
 
