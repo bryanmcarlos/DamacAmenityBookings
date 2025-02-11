@@ -176,8 +176,24 @@ document.getElementById("btn-tomorrow").addEventListener("click", () => {
     loadBryanBookings(getLocalDate());
 });
 
+// Function to set today's date as the default value in the date picker
+function setDefaultDate() {
+    const today = new Date();
+    today.setDate(today.getDate()); // Ensures correct local date
+
+    // Format the date as YYYY-MM-DD for the input field
+    const formattedDate = today.toISOString().split('T')[0];
+    
+    // Set the default date in the date picker
+    document.getElementById("datePicker").value = formattedDate;
+}
+
 // Show the date picker when clicking on the calendar
 document.getElementById("btn-tomorrow").insertAdjacentHTML('afterend', '<button id="calendarBtn">📅 Select Date</button>');
 document.getElementById("calendarBtn").addEventListener("click", () => {
     document.getElementById("datePicker").style.display = "block";
 });
+
+
+// Set the default date on page load
+window.onload = setDefaultDate;
