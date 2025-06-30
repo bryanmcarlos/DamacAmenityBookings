@@ -1,8 +1,6 @@
 function loadBryanBookings(filterDate = null) {
     const url = "https://script.google.com/macros/s/AKfycbxDmvSySLwx1HnG0HUUTXrYN-5bFOqGAK5BtWvKk3Yy6QDw7UyKOv6iy035YpYVnR-HKw/exec";
 
-    
-
     // Show the loading spinner
     const spinner = document.getElementById("loading-spinner");
     spinner.style.display = "block";
