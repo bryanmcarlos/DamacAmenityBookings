@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tennis Booking Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .quick-fill {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .quick-btn {
+            flex: 1;
+            padding: 8px;
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        
+        .quick-btn:hover {
+            background: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎾 Tennis Booking Test</h1>
+        
+        <form id="bookingForm">
+            <div class="quick-fill">
+                <button type="button" class="quick-btn" onclick="fillToday()">Today</button>
+                <button type="button" class="quick-btn" onclick="fillTomorrow()">Tomorrow</button>
+                <button type="button" class="quick-btn" onclick="fillRandom()">Random</button>
+            </div>
+            
+            <div class="form-group">
+                <label for="bookingId">Booking ID</label>
+                <input type="text" id="bookingId" placeholder="Auto-generated if empty">
+            </div>
+            
+            <div class="form-group">
+                <label for="amenityName">Court</label>
+                <select id="amenityName">
+                    <option value="D2 Sports Town - Tennis Court">D2 Sports Town - Tennis Court</option>
+                    <option value="Tennis Court 1">Tennis Court 1</option>
+                    <option value="Tennis Court 2">Tennis Court 2</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="bookingDate">Booking Date</label>
+                <input type="date" id="bookingDate">
+            </div>
+            
+            <div class="form-group">
+                <label for="timeSlot">Time Slot</label>
+                <select id="timeSlot">
+                    <option value="15:00 - 16:00">15:00 - 16:00</option>
+                    <option value="16:00 - 17:00">16:00 - 17:00</option>
+                    <option value="17:00 - 18:00">17:00 - 18:00</option>
+                    <option value="18:00 - 19:00">18:00 - 19:00</option>
+                    <option value="19:00 - 20:00" selected>19:00 - 20:00</option>
+                    <option value="20:00 - 21:00">20:00 - 21:00</option>
+                    <option value="21:00 - 22:00">21:00 - 22:00</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="userEmail">Email</label>
+                <input type="email" id="userEmail" value="test@example.com">
+            </div>
+            
+            <button type="submit" class="btn" id="submitBtn">
+                📝 Create Test Booking
+            </button>
+        </form>
+        
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxDmvSySLwx1HnG0HUUTXrYN-5bFOqGAK5BtWvKk3Yy6QDw7UyKOv6iy035YpYVnR-HKw/exec';
+        
+        // Set default date to today
+        document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
+        
+        // Handle custom account selection
+        document.getElementById('account').addEventListener('change', function() {
+            const customGroup = document.getElementById('customAccountGroup');
+            if (this.value === 'CUSTOM') {
+                customGroup.style.display = 'block';
+            } else {
+                customGroup.style.display = 'none';
+            }
+        });
+        
+        // Handle custom status selection
+        document.getElementById('status').addEventListener('change', function() {
+            const customGroup = document.getElementById('customStatusGroup');
+            if (this.value === 'Custom Status') {
+                customGroup.style.display = 'block';
+            } else {
+                customGroup.style.display = 'none';
+            }
+        });
+        
+        function fillToday() {
+            document.getElementById('bookingDate').value = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingId').value = 'TODAY_' + Date.now();
+            document.getElementById('account').value = 'MANUAL_TEST';
+            document.getElementById('status').value = 'Manual Test Booking';
+        }
+        
+        function fillTomorrow() {
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            document.getElementById('bookingDate').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('bookingId').value = 'TOMORROW_' + Date.now();
+            document.getElementById('account').value = '0010700000P2RCfAAN';
+            document.getElementById('status').value = 'Booking Confirmed';
+        }
+        
+        function fillRandom() {
+            const randomDays = Math.floor(Math.random() * 14) + 1;
+            const randomDate = new Date();
+            randomDate.setDate(randomDate.getDate() + randomDays);
+            document.getElementById('bookingDate').value = randomDate.toISOString().split('T')[0];
+            document.getElementById('bookingId').value = 'RANDOM_' + Date.now();
+            
+            // Random account
+            const accounts = ['0010700000P2RCfAAN', '0011n00002WA7zxAAD', '0010700000UJGkMAAX'];
+            document.getElementById('account').value = accounts[Math.floor(Math.random() * accounts.length)];
+            
+            // Random time
+            const times = ['15:00 - 16:00', '16:00 - 17:00', '17:00 - 18:00', '18:00 - 19:00', '19:00 - 20:00', '20:00 - 21:00'];
+            document.getElementById('timeSlot').value = times[Math.floor(Math.random() * times.length)];
+        }
+        
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        document.getElementById('bookingForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Creating Booking...';
+            
+            showStatus('Creating test booking...', 'loading');
+            
+            try {
+                // Get account value (custom or selected)
+                let accountValue = document.getElementById('account').value;
+                if (accountValue === 'CUSTOM') {
+                    accountValue = document.getElementById('customAccount').value || 'CUSTOM_ACCOUNT';
+                }
+                
+                // Get status value (custom or selected)
+                let statusValue = document.getElementById('status').value;
+                if (statusValue === 'Custom Status') {
+                    statusValue = document.getElementById('customStatus').value || 'Custom Status';
+                }
+                
+                const formData = {
+                    Account: accountValue,
+                    BookingID: document.getElementById('bookingId').value || 'AUTO_' + Date.now(),
+                    AmenityName: document.getElementById('amenityName').value,
+                    BookingDate: document.getElementById('bookingDate').value,
+                    TimeSlot: document.getElementById('timeSlot').value,
+                    ServiceRequestNumber: document.getElementById('serviceRequest').value || 'MANUAL_' + Date.now(),
+                    Status: statusValue,
+                    CreationDate: new Date().toISOString().split('T')[0],
+                    UserEmail: document.getElementById('userEmail').value,
+                    SlotType: document.getElementById('slotType').value
+                };
+                
+                console.log('Sending data:', formData);
+                
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                console.log('Response status:', response.status);
+                
+                if (response.ok || response.status === 302) {
+                    showStatus('✅ Test booking created successfully!', 'success');
+                    
+                    // Clear the form
+                    document.getElementById('bookingId').value = '';
+                    fillToday(); // Reset to today
+                } else {
+                    showStatus('❌ Failed to create booking. Check console for details.', 'error');
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showStatus('❌ Network error: ' + error.message, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '📝 Create Test Booking';
+            }
+        });
+    </script>
+</body>
+</html>
