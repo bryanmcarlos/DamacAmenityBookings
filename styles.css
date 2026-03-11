@@ -754,6 +754,8 @@ body {
 
 /* Security Booking Card - Matches Original Website Design */
 
+/* Update these specific classes in your styles.css */
+
 .security-booking-card {
     display: flex;
     flex-direction: row;
@@ -762,98 +764,44 @@ body {
     border-radius: 12px;
     padding: 16px;
     margin: 20px;
-    max-width: 600px;
     background-color: white;
     position: relative;
+    font-family: Helvetica, sans-serif; /* Matches old_style.css */
 }
 
-/* Status/Approved badge at top-right */
-.approved-badge {
-    position: absolute;
-    top: 8px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: #7D7D7D;
-    font-size: 14px;
-}
-
-.approved-icon {
-    width: 25px;
-    height: 25px;
-}
-
-/* Icon styling */
-.amenity-icon-container {
-    flex-shrink: 0;
-    margin-right: 12px;
-    margin-top: 20px;
-}
-
-.amenity-icon {
-    width: 46px;
-    height: 43px;
-    object-fit: contain;
-}
-
-.amenity-icon-fallback {
-    width: 46px;
-    height: 43px;
-    color: #666;
-}
-
-/* Details styling */
-.booking-details-security {
-    flex: 1;
-    margin-left: 8px;
-}
-
-.amenity-name-security {
-    font-size: 14px;
-    font-weight: 590;
-    margin: 32px -8px 26px;
-    letter-spacing: 1px;
-}
-
-/* Field names styling */
+/* 1. Typography & Colors */
 .detail-label-security {
-    margin: 8px -9px;
-    letter-spacing: 1px;
+    margin: 8px 0 4px 0;
+    letter-spacing: 0.5px;
     font-size: 13px;
-    color: #9E9E9E;
-    font-weight: 100;
+    color: #9E9E9E; /* Light grey for labels */
+    font-weight: 300; 
+    text-transform: capitalize;
 }
 
-/* Bold and darker style for values */
 .detail-value-security {
     font-size: 14px;
-    font-weight: 300;
+    font-weight: 400; /* Subtle weight, not heavy bold */
     color: #333;
-}
-
-/* Detail group spacing */
-.detail-group {
-    margin-bottom: 0;
-}
-
-.detail-group .detail-label-security {
-    margin-bottom: 6px;
-}
-
-.detail-group .detail-value-security:last-child {
-    margin-bottom: 24px;
-}
-
-.detail-group:last-of-type .detail-value-security:last-child {
     margin-bottom: 16px;
 }
 
-/* Flex row for service request section */
+/* 2. Heading Alignment */
+.amenity-name-security {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 28px 0 20px 0;
+    letter-spacing: 0.5px;
+    color: #000;
+}
+
+/* 3. Horizontal Layout for Service Req (Fixes IMG_2205) */
 .service-req-container {
     display: flex;
     flex-direction: row;
-    gap: 35px;
+    justify-content: flex-start;
+    gap: 60px; /* Provides the spacing seen in 2204 */
+    margin-top: 10px;
 }
 
 .service-req-column {
@@ -861,53 +809,33 @@ body {
     flex-direction: column;
 }
 
-.service-req-column .detail-label-security {
-    margin-bottom: 6px;
-}
-
-.service-req-column .detail-value-security {
-    margin-bottom: 0;
-}
-
-/* Menu dots at top-right */
-.menu-dots {
+/* 4. Status Badge (Top Right) */
+.approved-badge {
     position: absolute;
-    top: 32px;
+    top: 12px;
     right: 16px;
-    font-size: 20px;
-    color: #999;
-    cursor: pointer;
-    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #7D7D7D;
+    font-size: 13px;
 }
 
-/* Modal adjustments for security view */
-.modal-content.security-view {
-    background: #f7f7f7;
-    max-width: 95vw;
-    width: 650px;
+.approved-icon {
+    width: 18px;
+    height: 18px;
+    /* Ensure this is the green checkmark icon */
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .security-booking-card {
-        margin: 10px;
-        flex-direction: column;
-    }
-    
-    .amenity-icon-container {
-        margin-top: 10px;
-    }
-    
-    .amenity-name-security {
-        margin: 10px -8px 20px;
-    }
-    
-    .service-req-container {
-        flex-direction: column;
-        gap: 20px;
-    }
-    
-    .menu-dots {
-        top: 20px;
-    }
+/* 5. Icon Spacing */
+.amenity-icon-container {
+    flex-shrink: 0;
+    margin-right: 15px;
+    margin-top: 25px;
+}
+
+.amenity-icon {
+    width: 40px; 
+    height: 40px;
+    object-fit: contain;
 }
