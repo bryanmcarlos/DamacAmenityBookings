@@ -399,24 +399,7 @@ function showSecurityView(bookingId) {
     modal.classList.add('show');
 }
 
-// Close security view
-function closeSecurityView() {
-    const modal = document.getElementById('securityModal');
-    modal.classList.remove('show');
-}
 
-// Close modals when clicking outside
-document.addEventListener('click', (e) => {
-    const securityModal = document.getElementById('securityModal');
-    const detailModal = document.getElementById('detailModal');
-    
-    if (e.target === securityModal) {
-        closeSecurityView();
-    }
-    if (e.target === detailModal) {
-        closeDetailView();
-    }
-});
 
 document.querySelector('.modal-close-btn').addEventListener('click', () => {
     // This logic depends on how you open the modal, 

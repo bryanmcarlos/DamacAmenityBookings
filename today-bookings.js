@@ -218,19 +218,6 @@ function showSecurityView(bookingId) {
     modal.classList.add('show');
 }
 
-// Close security view
-function closeSecurityView() {
-    const modal = document.getElementById('securityModal');
-    modal.classList.remove('show');
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', (e) => {
-    const modal = document.getElementById('securityModal');
-    if (e.target === modal) {
-        closeSecurityView();
-    }
-});
 
 
 document.querySelector('.modal-close-btn').addEventListener('click', () => {
