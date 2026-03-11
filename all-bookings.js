@@ -348,8 +348,6 @@ function showSecurityView(bookingId) {
     }
     
     content.innerHTML = `
-    <div class="modal-overlay">
-        <button class="modal-close-btn">&times;</button>
     <div class="security-booking-card">
         <div class="approved-badge">
             <img src="approvedIcon.png" alt="Approved" class="approved-icon">
@@ -358,38 +356,43 @@ function showSecurityView(bookingId) {
         
         <div class="card-main-layout">
             <div class="amenity-icon-container">
-                <img src="icon.png" alt="Amenity" class="amenity-icon" onerror="this.style.display='none'">
+                <img src="icon.png" alt="Amenity Icon" class="amenity-icon" onerror="this.style.display='none'">
             </div>
             
             <div class="booking-details-security">
                 <div class="header-row-security">
-                    <h3 class="amenity-name-security">${booking.amenityName}</h3>
+                    <h3 class="amenity-name-security">${booking.amenityName || 'Booking'}</h3>
                     <div class="menu-dots">⋮</div>
                 </div>
                 
                 <div class="detail-group">
                     <div class="detail-label-security">Booking date</div>
-                    <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
+                    <div class="detail-value-security">
+                        ${typeof formatBookingDate === 'function' ? formatBookingDate(booking.bookingDate) : (booking.bookingDate || 'N/A')}
+                    </div>
                 </div>
                 
                 <div class="detail-group">
                     <div class="detail-label-security">Time slot</div>
-                    <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
+                    <div class="detail-value-security">
+                        ${typeof format12HourTimeSlot === 'function' ? format12HourTimeSlot(booking.timeSlot) : (booking.timeSlot || 'N/A')}
+                    </div>
                 </div>
                 
                 <div class="service-req-container">
                     <div class="service-req-column">
                         <div class="detail-label-security">Service Req Number</div>
-                        <div class="detail-value-security">${booking.serviceRequestNumber}</div>
+                        <div class="detail-value-security">${booking.serviceRequestNumber || 'N/A'}</div>
                     </div>
                     <div class="service-req-column">
                         <div class="detail-label-security">Service Req Raised Date</div>
-                        <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
+                        <div class="detail-value-security">
+                            ${typeof formatCreationDate === 'function' ? formatCreationDate(booking.creationDate) : (booking.creationDate || 'N/A')}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 `;
     
