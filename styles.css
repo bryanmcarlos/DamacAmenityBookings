@@ -752,23 +752,29 @@ body {
 }
 
 
-/* Security Booking Card - Matches iOS App Design */
+/* Security Booking Card - Matches Original Website Design */
 
 .security-booking-card {
-    background: white;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    border: 1px solid #ddd;
     border-radius: 12px;
-    border: 1px solid #dddddd;
+    padding: 16px;
     margin: 20px;
     max-width: 600px;
+    background-color: white;
     position: relative;
 }
 
+/* Status/Approved badge at top-right */
 .approved-badge {
+    position: absolute;
+    top: 8px;
+    right: 16px;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 5px;
-    padding: 8px 16px 0 0;
     color: #7D7D7D;
     font-size: 14px;
 }
@@ -778,15 +784,11 @@ body {
     height: 25px;
 }
 
-.booking-card-content-security {
-    display: flex;
-    padding: 0 16px 16px 16px;
-    gap: 12px;
-}
-
+/* Icon styling */
 .amenity-icon-container {
     flex-shrink: 0;
-    padding-top: 20px;
+    margin-right: 12px;
+    margin-top: 20px;
 }
 
 .amenity-icon {
@@ -801,53 +803,79 @@ body {
     color: #666;
 }
 
+/* Details styling */
 .booking-details-security {
     flex: 1;
-    padding-left: 8px;
+    margin-left: 8px;
 }
 
 .amenity-name-security {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 590;
+    margin: 32px -8px 26px;
     letter-spacing: 1px;
-    margin: 32px 0 26px 0;
-    line-height: 1.2;
 }
 
-.detail-group {
-    margin-bottom: 24px;
-}
-
+/* Field names styling */
 .detail-label-security {
-    font-size: 13px;
-    font-weight: 100;
+    margin: 8px -9px;
     letter-spacing: 1px;
+    font-size: 13px;
     color: #9E9E9E;
-    margin-bottom: 6px;
+    font-weight: 100;
 }
 
+/* Bold and darker style for values */
 .detail-value-security {
     font-size: 14px;
     font-weight: 300;
-    color: #333333;
+    color: #333;
 }
 
+/* Detail group spacing */
+.detail-group {
+    margin-bottom: 0;
+}
+
+.detail-group .detail-label-security {
+    margin-bottom: 6px;
+}
+
+.detail-group .detail-value-security:last-child {
+    margin-bottom: 24px;
+}
+
+.detail-group:last-of-type .detail-value-security:last-child {
+    margin-bottom: 16px;
+}
+
+/* Flex row for service request section */
 .service-req-container {
     display: flex;
+    flex-direction: row;
     gap: 35px;
-    margin-bottom: 16px;
 }
 
 .service-req-column {
     display: flex;
     flex-direction: column;
-    gap: 6px;
 }
 
+.service-req-column .detail-label-security {
+    margin-bottom: 6px;
+}
+
+.service-req-column .detail-value-security {
+    margin-bottom: 0;
+}
+
+/* Menu dots at top-right */
 .menu-dots {
+    position: absolute;
+    top: 32px;
+    right: 16px;
     font-size: 20px;
     color: #999;
-    padding-top: 32px;
     cursor: pointer;
     user-select: none;
 }
@@ -863,11 +891,15 @@ body {
 @media (max-width: 768px) {
     .security-booking-card {
         margin: 10px;
+        flex-direction: column;
     }
     
-    .booking-card-content-security {
-        flex-direction: column;
-        align-items: flex-start;
+    .amenity-icon-container {
+        margin-top: 10px;
+    }
+    
+    .amenity-name-security {
+        margin: 10px -8px 20px;
     }
     
     .service-req-container {
@@ -875,11 +907,7 @@ body {
         gap: 20px;
     }
     
-    .amenity-icon-container {
-        padding-top: 10px;
-    }
-    
-    .amenity-name-security {
-        margin: 10px 0 20px 0;
+    .menu-dots {
+        top: 20px;
     }
 }
