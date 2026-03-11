@@ -756,125 +756,98 @@ body {
 
 /* Update these specific classes in your styles.css */
 
+/* Container adjustments */
 .security-booking-card {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 16px;
-    margin: 20px;
-    background-color: white;
-    position: relative;
-    font-family: Helvetica, sans-serif; /* Matches old_style.css */
-}
-
-/* 1. Typography & Colors */
-.detail-label-security {
-    margin: 8px 0 4px 0;
-    letter-spacing: 0.5px;
-    font-size: 13px;
-    color: #9E9E9E; /* Light grey for labels */
-    font-weight: 300; 
-    text-transform: capitalize;
-}
-
-.detail-value-security {
-    font-size: 14px;
-    font-weight: 400; /* Subtle weight, not heavy bold */
-    color: #333;
+    border: 1px solid #E5E5EA; /* Matching var(--border-color) */
+    border-radius: 16px; /* Matches IMG_2204 rounded corners */
+    padding: 24px;
     margin-bottom: 16px;
+    background-color: #FFFFFF;
+    position: relative;
+    font-family: -apple-system, Helvetica, sans-serif;
 }
 
-/* 2. Heading Alignment */
+/* Status Badge - Fixed to top right with icon */
+.approved-badge {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #8E8E93;
+    font-size: 13px;
+}
+
+.approved-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Icon - Restoring original size from old_style.css */
+.amenity-icon-container {
+    flex-shrink: 0;
+    margin-top: 32px; /* Aligns with Title text */
+    margin-right: 16px;
+}
+
+.amenity-icon {
+    width: 46px; 
+    height: 43px;
+    object-fit: contain;
+}
+
+/* Details and Header Alignment */
+.booking-details-security {
+    flex: 1;
+}
+
+.header-row-security {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 32px 0 24px 0; /* Matching spacing from IMG_2204 */
+}
+
 .amenity-name-security {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 600;
-    margin: 28px 0 20px 0;
-    letter-spacing: 0.5px;
     color: #000;
 }
 
-/* 3. Horizontal Layout for Service Req (Fixes IMG_2205) */
+.menu-dots {
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* Typography matching design 2204 */
+.detail-label-security {
+    font-size: 13px;
+    color: #AEAEB2;
+    font-weight: 300;
+    margin-bottom: 4px;
+}
+
+.detail-value-security {
+    font-size: 15px;
+    font-weight: 400;
+    color: #1C1C1E;
+    margin-bottom: 20px;
+}
+
+/* Side-by-Side Service Req Info */
 .service-req-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    gap: 60px; /* Provides the spacing seen in 2204 */
-    margin-top: 10px;
+    gap: 40px; /* Space between the two columns */
 }
 
 .service-req-column {
     display: flex;
     flex-direction: column;
-}
-
-/* 4. Status Badge (Top Right) */
-.approved-badge {
-    position: absolute;
-    top: 12px;
-    right: 16px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #7D7D7D;
-    font-size: 13px;
-}
-
-.approved-icon {
-    width: 18px;
-    height: 18px;
-    /* Ensure this is the green checkmark icon */
-}
-
-/* 5. Icon Spacing */
-/* Ensure the icon container doesn't collapse */
-.amenity-icon-container {
-    flex-shrink: 0;
-    margin-right: 12px;
-    margin-top: 25px; /* Adjust based on title height */
-    width: 46px; 
-    height: 43px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.amenity-icon {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block; /* Ensures image renders */
-}
-
-/* Fix the menu dots positioning */
-.menu-dots {
-    color: #999;
-    font-size: 22px;
-    cursor: pointer;
-    margin-right: 8px;
-    padding-bottom: 10px;
-}
-
-/* Adjust Service Req spacing to match design 2204 */
-.service-req-container {
-    display: flex;
-    flex-direction: row;
-    gap: 40px; /* Space between Number and Raised Date */
-    margin-top: 5px;
-}
-
-.detail-label-security {
-    margin-bottom: 4px;
-    font-size: 13px;
-    color: #9E9E9E;
-    font-weight: 300;
-    letter-spacing: 0.5px;
-}
-
-.detail-value-security {
-    font-size: 14px;
-    font-weight: 300; /* Light weight as per design 2204 */
-    color: #333;
-    margin-bottom: 24px;
 }

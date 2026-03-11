@@ -356,16 +356,12 @@ function showSecurityView(bookingId) {
         
         <div class="amenity-icon-container">
             ${booking.icon ? `<img src="${booking.icon}" alt="Amenity" class="amenity-icon">` : `
-                <svg class="amenity-icon-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10"/>
-                    <line x1="12" y1="8" x2="12" y2="12"/>
-                    <line x1="12" y1="16" x2="12.01" y2="16"/>
-                </svg>
+                <div class="amenity-icon-fallback"></div>
             `}
         </div>
         
         <div class="booking-details-security">
-            <div style="display: flex; justify-content: space-between; align-items: baseline;">
+            <div class="header-row-security">
                 <h3 class="amenity-name-security">${booking.amenityName}</h3>
                 <div class="menu-dots">⋮</div>
             </div>
