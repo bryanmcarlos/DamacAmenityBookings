@@ -142,6 +142,9 @@ class DamacAPIService {
         try {
             const url = `${this.proxyURL}/all-bookings`;
             
+            console.log('📡 Fetching all bookings from proxy:', url);
+            console.log('📤 Sending accounts:', CONFIG.ACCOUNTS.length, 'accounts');
+            
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -150,15 +153,26 @@ class DamacAPIService {
                 body: JSON.stringify(CONFIG.ACCOUNTS)
             });
             
+            console.log('📥 Response status:', response.status);
+            
             if (!response.ok) {
                 const errorText = await response.text();
+                console.error('❌ Error response:', errorText);
                 throw new Error(`Failed to fetch all bookings: ${response.status} - ${errorText}`);
             }
             
             const data = await response.json();
+            console.log('✅ Received data:', data);
+            console.log('📊 Bookings count:', data?.bookings?.length || 0);
+            
             const apiBookings = data?.bookings || [];
             
-            return apiBookings.map(booking => {
+            if (apiBookings.length === 0) {
+                console.warn('⚠️ No bookings returned from API');
+                return [];
+            }
+            
+            const transformed = apiBookings.map(booking => {
                 const account = CONFIG.ACCOUNTS.find(a => a.accountId === booking._account.accountId);
                 return this.transformBooking(booking, account || {
                     accountId: booking._account.accountId,
@@ -167,8 +181,11 @@ class DamacAPIService {
                 });
             });
             
+            console.log('✅ Transformed bookings:', transformed.length);
+            return transformed;
+            
         } catch (error) {
-            console.error('Error fetching all bookings via proxy:', error);
+            console.error('❌ Error fetching all bookings via proxy:', error);
             throw error;
         }
     }
