@@ -3,26 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upcoming Bookings</title>
-    <link rel="stylesheet" href="style.css"> <!-- Link to the external CSS file -->
+    <title>Damac Hills Tennis Bookings</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .hero {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 122, 255, 0.8));
+            color: white;
+            border-radius: var(--radius-lg);
+            margin: var(--spacing-lg);
+        }
+        
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .hero p {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--spacing-lg);
+            padding: var(--spacing-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .quick-link-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-primary);
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s;
+        }
+        
+        .quick-link-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .quick-link-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--spacing-md);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .quick-link-icon.today {
+            background: linear-gradient(135deg, var(--success-color), rgba(52, 199, 89, 0.8));
+        }
+        
+        .quick-link-icon.all {
+            background: linear-gradient(135deg, var(--primary-color), rgba(0, 122, 255, 0.8));
+        }
+        
+        .quick-link-card h3 {
+            font-size: 22px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .quick-link-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        
+        .features {
+            padding: var(--spacing-xl) var(--spacing-lg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            font-size: 28px;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: var(--spacing-lg);
+        }
+        
+        .feature-item {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto var(--spacing-sm);
+            color: var(--primary-color);
+        }
+        
+        .feature-item h4 {
+            font-size: 16px;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .feature-item p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+    </style>
 </head>
 <body>
-    <h1>Upcoming Bookings</h1>
-    <button id="btn">Load Bookings</button>
-    <button id="btn-today">Today's Bookings</button>
-    <button id="btn-tomorrow">Tomorrow's Bookings</button>
-    <a href="testbooking.html" id="btn-test">Test Booking</a>
-    
-    <!-- Date Picker -->
-    <input type="date" id="datePicker" style="display: none;">
-    
-    <div id="app"></div>
-
-    <!-- Loading Spinner -->
-    <div id="loading-spinner" style="display: none;">
-        <img src="tennis-ball.png" alt="Loading..." class="loading-ball">
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>🎾 Tennis Bookings</h1>
+            <p>Manage your Damac Hills tennis court bookings with ease</p>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="today-bookings.html" class="quick-link-card">
+                <div class="quick-link-icon today">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                        <line x1="16" y1="2" x2="16" y2="6"/>
+                        <line x1="8" y1="2" x2="8" y2="6"/>
+                        <line x1="3" y1="10" x2="21" y2="10"/>
+                        <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01M16 18h.01"/>
+                    </svg>
+                </div>
+                <h3>Today's Bookings</h3>
+                <p>Quick access to your tennis court bookings for today</p>
+            </a>
+            
+            <a href="all-bookings.html" class="quick-link-card">
+                <div class="quick-link-icon all">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+                        <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
+                        <line x1="9" y1="12" x2="15" y2="12"/>
+                        <line x1="9" y1="16" x2="15" y2="16"/>
+                    </svg>
+                </div>
+                <h3>All Bookings</h3>
+                <p>View all tennis court bookings with filtering and stats</p>
+            </a>
+        </div>
+        
+        <!-- Features Section -->
+        <div class="features">
+            <h2>Features</h2>
+            <div class="feature-grid">
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <h4>Real-time Updates</h4>
+                    <p>Always see the latest bookings</p>
+                </div>
+                
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        <path d="M9 12l2 2 4-4"/>
+                    </svg>
+                    <h4>Security View</h4>
+                    <p>Show bookings to gate security</p>
+                </div>
+                
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="4" y1="21" x2="4" y2="14"/>
+                        <line x1="4" y1="10" x2="4" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12" y2="3"/>
+                        <circle cx="4" cy="12" r="2"/>
+                        <circle cx="12" cy="10" r="2"/>
+                    </svg>
+                    <h4>Filter by Account</h4>
+                    <p>View bookings per family member</p>
+                </div>
+                
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <h4>Responsive Design</h4>
+                    <p>Works on all devices</p>
+                </div>
+                
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                    <h4>Premium Slots</h4>
+                    <p>Highlights premium time slots</p>
+                </div>
+                
+                <div class="feature-item">
+                    <svg class="feature-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                    </svg>
+                    <h4>Dark Mode</h4>
+                    <p>Automatic dark mode support</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div style="text-align: center; padding: var(--spacing-xl); color: var(--text-secondary);">
+            <p style="font-size: 14px;">Damac Hills Tennis Booking System</p>
+            <p style="font-size: 12px; margin-top: 8px;">Made with ❤️ for tennis enthusiasts</p>
+        </div>
     </div>
-
-    <script src="my.js"></script>
 </body>
 </html>

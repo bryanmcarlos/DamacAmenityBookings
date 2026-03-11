@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Today's Bookings - Damac Hills Tennis</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="navigation">
+            <h1 class="nav-title">🎾 Tennis Bookings</h1>
+            <div class="nav-buttons">
+                <a href="today-bookings.html" class="nav-button active">Today</a>
+                <a href="all-bookings.html" class="nav-button">All Bookings</a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2>Today's Bookings</h2>
+                <button id="refreshBtn" class="icon-button" onclick="refreshBookings()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6"/>
+                        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading today's bookings...</p>
+            </div>
+
+            <!-- Info Banner -->
+            <div id="infoBanner" class="info-banner" style="display: none;">
+                <svg class="info-icon" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 16v-4M12 8h.01" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <div>
+                    <h3>Quick Access</h3>
+                    <p>Tap any booking to show to security</p>
+                </div>
+            </div>
+
+            <!-- Bookings List -->
+            <div id="bookingsList" class="bookings-list"></div>
+
+            <!-- Empty State -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <svg class="empty-icon" width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                    <line x1="16" y1="2" x2="16" y2="6"/>
+                    <line x1="8" y1="2" x2="8" y2="6"/>
+                    <line x1="3" y1="10" x2="21" y2="10"/>
+                    <path d="M12 14h.01"/>
+                </svg>
+                <h3>No Bookings Today</h3>
+                <p>You don't have any tennis court bookings scheduled for today.</p>
+                <button onclick="refreshBookings()" class="primary-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M23 4v6h-6M1 20v-6h6"/>
+                        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+                    </svg>
+                    Refresh
+                </button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Security View Modal -->
+    <div id="securityModal" class="modal">
+        <div class="modal-content security-view">
+            <button class="modal-close" onclick="closeSecurityView()">✕</button>
+            <div id="securityContent"></div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api-service.js"></script>
+    <script src="today-bookings.js"></script>
+</body>
+</html>
