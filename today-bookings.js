@@ -164,6 +164,10 @@ function showSecurityView(bookingId) {
     }
     
     content.innerHTML = `
+    
+    <div class="modal-overlay">
+        <button class="modal-close-btn">&times;</button>
+
     <div class="security-booking-card">
         <div class="approved-badge">
             <img src="approvedIcon.png" alt="Approved" class="approved-icon">
@@ -204,6 +208,7 @@ function showSecurityView(bookingId) {
             </div>
         </div>
     </div>
+    </div>
 `;
     
     modal.classList.add('show');
@@ -221,4 +226,11 @@ document.addEventListener('click', (e) => {
     if (e.target === modal) {
         closeSecurityView();
     }
+});
+
+
+document.querySelector('.modal-close-btn').addEventListener('click', () => {
+    // This logic depends on how you open the modal, 
+    // but usually it's something like:
+    document.querySelector('.modal-overlay').remove(); 
 });
