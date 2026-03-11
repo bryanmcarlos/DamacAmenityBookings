@@ -164,62 +164,47 @@ function showSecurityView(bookingId) {
     }
     
     content.innerHTML = `
-        <div class="security-booking-card">
-            <!-- Approved Badge -->
-            <div class="approved-badge">
-                ${booking.approvedIcon ? `<img src="${booking.approvedIcon}" alt="Approved" class="approved-icon">` : ''}
-                <span>Approved</span>
+    <div class="security-booking-card">
+        <div class="approved-badge">
+            <img src="approvedIcon.png" alt="Approved" class="approved-icon">
+            <span>Approved</span>
+        </div>
+        
+        <div class="card-main-layout">
+            <div class="amenity-icon-container">
+                <img src="icon.png" alt="Amenity Icon" class="amenity-icon" onerror="this.style.display='none'">
             </div>
             
-            <!-- Main Content -->
-            <div class="booking-card-content-security">
-                <!-- Icon -->
-                <div class="amenity-icon-container">
-                    ${booking.icon ? `<img src="${booking.icon}" alt="Amenity" class="amenity-icon">` : `
-                        <svg class="amenity-icon-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="12" y1="8" x2="12" y2="12"/>
-                            <line x1="12" y1="16" x2="12.01" y2="16"/>
-                        </svg>
-                    `}
-                </div>
-                
-                <!-- Details -->
-                <div class="booking-details-security">
-                    <!-- Amenity Name -->
+            <div class="booking-details-security">
+                <div class="header-row-security">
                     <h3 class="amenity-name-security">${booking.amenityName}</h3>
-                    
-                    <!-- Booking Date -->
-                    <div class="detail-group">
-                        <div class="detail-label-security">Booking date</div>
-                        <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
-                    </div>
-                    
-                    <!-- Time Slot -->
-                    <div class="detail-group">
-                        <div class="detail-label-security">Time slot</div>
-                        <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
-                    </div>
-                    
-                    <!-- Service Request Info -->
-                    <div class="service-req-container">
-                        <div class="service-req-column">
-                            <div class="detail-label-security">Service Req Number</div>
-                            <div class="detail-value-security">${booking.serviceRequestNumber}</div>
-                        </div>
-                        <div class="service-req-column">
-                            <div class="detail-label-security">Service Req</div>
-                            <div class="detail-label-security">Raised Date</div>
-                            <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
-                        </div>
-                    </div>
+                    <div class="menu-dots">⋮</div>
                 </div>
                 
-                <!-- Three-dot menu -->
-                <div class="menu-dots">⋮</div>
+                <div class="detail-group">
+                    <div class="detail-label-security">Booking date</div>
+                    <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
+                </div>
+                
+                <div class="detail-group">
+                    <div class="detail-label-security">Time slot</div>
+                    <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
+                </div>
+                
+                <div class="service-req-container">
+                    <div class="service-req-column">
+                        <div class="detail-label-security">Service Req Number</div>
+                        <div class="detail-value-security">${booking.serviceRequestNumber}</div>
+                    </div>
+                    <div class="service-req-column">
+                        <div class="detail-label-security">Service Req Raised Date</div>
+                        <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
+                    </div>
+                </div>
             </div>
         </div>
-    `;
+    </div>
+`;
     
     modal.classList.add('show');
 }

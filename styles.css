@@ -665,7 +665,7 @@ body {
 .security-view {
     width: 500px;
     max-width: 95vw;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-sm);
 }
 
 .security-qr {
