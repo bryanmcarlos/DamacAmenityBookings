@@ -3,18 +3,14 @@
 class DamacAPIService {
     constructor() {
         // IMPORTANT: Replace this with YOUR Cloudflare Worker URL after setup
-        // Leave as null to use direct API (will have CORS issues on GitHub Pages)
-        this.proxyURL = 'https://damac-tennis-proxy.bryanmcarlos.workers.dev';
+        // NO trailing slash at the end!
+        this.proxyURL = 'https://damac-tennis-proxy.bryanmcarlos.workers.dev'; // ✅ No trailing slash!
         
         // Fallback to direct API (for local testing or if no proxy)
         this.baseURL = `https://${CONFIG.API.host}/damacliving/api/v1`;
         this.tokens = new Map(); // Store tokens per account
         
-        // Auto-detect if we should use proxy based on domain
-        if (!this.proxyURL && typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
-            console.warn('⚠️ Running on GitHub Pages - You need to set up a Cloudflare Worker proxy!');
-            console.warn('📖 See CSP_FIX_BACKEND_PROXY.md for instructions');
-        }
+        console.log('🔧 API Service initialized with proxy:', this.proxyURL);
     }
     
     // Get the appropriate API URL (proxy or direct)
