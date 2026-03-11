@@ -906,10 +906,12 @@ body {
 /* 3. Adjust the Card for Modal use */
 .security-booking-card {
     background: #FFFFFF;
-    border-radius: 24px;
+    border-radius: 20px;
     padding: 10px;
     width: 98%;
     max-width: 500px; /* Prevents it from getting too wide on desktop */
     position: relative;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
+
+
