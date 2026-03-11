@@ -127,7 +127,7 @@ function createQuickSecurityCard(booking) {
     `;
 }
 
-// Show security view modal
+// Show security view modal - MATCHES iOS APP DESIGN
 function showSecurityView(bookingId) {
     const booking = bookings.find(b => b.id === bookingId);
     if (!booking) return;
@@ -135,56 +135,89 @@ function showSecurityView(bookingId) {
     const modal = document.getElementById('securityModal');
     const content = document.getElementById('securityContent');
     
+    // Helper functions for formatting
+    function formatBookingDate(dateString) {
+        const date = apiService.parseDate(dateString);
+        const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-US', options).replace(',', ',');
+    }
+    
+    function formatCreationDate(dateString) {
+        if (!dateString) return 'N/A';
+        const date = apiService.parseDate(dateString);
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = date.toLocaleDateString('en-US', { month: 'short' });
+        const year = date.getFullYear();
+        return `${day}-${month}-${year}`;
+    }
+    
+    function convertTo12Hour(time24) {
+        const [hours, minutes] = time24.split(':').map(Number);
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const hours12 = hours % 12 || 12;
+        return `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${ampm}`;
+    }
+    
+    function format12HourTimeSlot(timeSlot) {
+        const [start, end] = timeSlot.split(' - ');
+        return `${convertTo12Hour(start)} - ${convertTo12Hour(end)}`;
+    }
+    
     content.innerHTML = `
-        <div class="security-qr">
-            <h2>🎾 Tennis Court Booking</h2>
-            
-            <div class="qr-code">
-                <svg width="250" height="250" viewBox="0 0 100 100">
-                    <rect width="100" height="100" fill="white"/>
-                    <text x="50" y="50" text-anchor="middle" font-size="8" fill="black">
-                        QR Code for
-                    </text>
-                    <text x="50" y="60" text-anchor="middle" font-size="6" fill="black">
-                        ${booking.serviceRequestNumber}
-                    </text>
-                </svg>
+        <div class="security-booking-card">
+            <!-- Approved Badge -->
+            <div class="approved-badge">
+                ${booking.approvedIcon ? `<img src="${booking.approvedIcon}" alt="Approved" class="approved-icon">` : ''}
+                <span>Approved</span>
             </div>
             
-            <div class="security-details">
-                <div class="detail-row">
-                    <span class="detail-label">Booking ID:</span>
-                    <span class="detail-value">${booking.serviceRequestNumber}</span>
+            <!-- Main Content -->
+            <div class="booking-card-content-security">
+                <!-- Icon -->
+                <div class="amenity-icon-container">
+                    ${booking.icon ? `<img src="${booking.icon}" alt="Amenity" class="amenity-icon">` : `
+                        <svg class="amenity-icon-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    `}
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Date:</span>
-                    <span class="detail-value">${apiService.formatDateDisplay(booking.bookingDate)}</span>
+                
+                <!-- Details -->
+                <div class="booking-details-security">
+                    <!-- Amenity Name -->
+                    <h3 class="amenity-name-security">${booking.amenityName}</h3>
+                    
+                    <!-- Booking Date -->
+                    <div class="detail-group">
+                        <div class="detail-label-security">Booking date</div>
+                        <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
+                    </div>
+                    
+                    <!-- Time Slot -->
+                    <div class="detail-group">
+                        <div class="detail-label-security">Time slot</div>
+                        <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
+                    </div>
+                    
+                    <!-- Service Request Info -->
+                    <div class="service-req-container">
+                        <div class="service-req-column">
+                            <div class="detail-label-security">Service Req Number</div>
+                            <div class="detail-value-security">${booking.serviceRequestNumber}</div>
+                        </div>
+                        <div class="service-req-column">
+                            <div class="detail-label-security">Service Req</div>
+                            <div class="detail-label-security">Raised Date</div>
+                            <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="detail-row">
-                    <span class="detail-label">Time:</span>
-                    <span class="detail-value">${booking.timeSlot}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Court:</span>
-                    <span class="detail-value">${booking.amenityName}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Account:</span>
-                    <span class="detail-value">${booking.accountName}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Status:</span>
-                    <span class="detail-value">${booking.status}</span>
-                </div>
-                <div class="detail-row">
-                    <span class="detail-label">Type:</span>
-                    <span class="detail-value">${booking.slotType}</span>
-                </div>
+                
+                <!-- Three-dot menu -->
+                <div class="menu-dots">⋮</div>
             </div>
-            
-            <p style="margin-top: 20px; color: var(--text-secondary); font-size: 14px;">
-                Show this screen to security at the tennis court entrance
-            </p>
         </div>
     `;
     
