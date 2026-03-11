@@ -312,6 +312,7 @@ function closeDetailView() {
 }
 
 // Show security view modal - MATCHES iOS APP DESIGN
+// Show security view modal - MATCHES iOS APP DESIGN
 function showSecurityView(bookingId) {
     const booking = bookings.find(b => b.id === bookingId);
     if (!booking) return;
@@ -319,82 +320,83 @@ function showSecurityView(bookingId) {
     const modal = document.getElementById('securityModal');
     const content = document.getElementById('securityContent');
     
-    // Helper functions for formatting
-    function formatBookingDate(dateString) {
+    // Formatting Helpers
+    const formatBookingDate = (dateString) => {
         const date = apiService.parseDate(dateString);
         const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-US', options).replace(',', ',');
-    }
+        return date.toLocaleDateString('en-US', options);
+    };
     
-    function formatCreationDate(dateString) {
+    const formatCreationDate = (dateString) => {
         if (!dateString) return 'N/A';
         const date = apiService.parseDate(dateString);
         const day = String(date.getDate()).padStart(2, '0');
         const month = date.toLocaleDateString('en-US', { month: 'short' });
         const year = date.getFullYear();
         return `${day}-${month}-${year}`;
-    }
+    };
     
-    function convertTo12Hour(time24) {
-        const [hours, minutes] = time24.split(':').map(Number);
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const hours12 = hours % 12 || 12;
-        return `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${ampm}`;
-    }
-    
-    function format12HourTimeSlot(timeSlot) {
+    const format12HourTimeSlot = (timeSlot) => {
+        const convert = (t) => {
+            let [h, m] = t.split(':').map(Number);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            return `${String(h % 12 || 12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
+        };
         const [start, end] = timeSlot.split(' - ');
-        return `${convertTo12Hour(start)} - ${convertTo12Hour(end)}`;
-    }
+        return `${convert(start)} - ${convert(end)}`;
+    };
+
+    // Define the close logic globally so the button can see it
+    window.closeSecurityModal = function() {
+        modal.classList.remove('show'); // Removes the "bar" / background wrapper
+        content.innerHTML = '';         // Clears the overlay
+    };
     
     content.innerHTML = `
-    <div class="security-booking-card">
-        <div class="approved-badge">
-            <img src="approvedIcon.png" alt="Approved" class="approved-icon">
-            <span>Approved</span>
-        </div>
-        
-        <div class="card-main-layout">
-            <div class="amenity-icon-container">
-                <img src="icon.png" alt="Amenity Icon" class="amenity-icon" onerror="this.style.display='none'">
+    <div class="modal-overlay">
+        <button class="modal-close-btn" onclick="closeSecurityModal()">&times;</button>
+
+        <div class="security-booking-card">
+            <div class="approved-badge">
+                <img src="approvedIcon.png" alt="Approved" class="approved-icon">
+                <span>Approved</span>
             </div>
             
-            <div class="booking-details-security">
-                <div class="header-row-security">
-                    <h3 class="amenity-name-security">${booking.amenityName || 'Booking'}</h3>
-                    <div class="menu-dots">⋮</div>
+            <div class="card-main-layout">
+                <div class="amenity-icon-container">
+                    <img src="icon.png" alt="Amenity Icon" class="amenity-icon" onerror="this.style.display='none'">
                 </div>
                 
-                <div class="detail-group">
-                    <div class="detail-label-security">Booking date</div>
-                    <div class="detail-value-security">
-                        ${typeof formatBookingDate === 'function' ? formatBookingDate(booking.bookingDate) : (booking.bookingDate || 'N/A')}
+                <div class="booking-details-security">
+                    <div class="header-row-security">
+                        <h3 class="amenity-name-security">${booking.amenityName || 'Booking Details'}</h3>
+                        <div class="menu-dots">⋮</div>
                     </div>
-                </div>
-                
-                <div class="detail-group">
-                    <div class="detail-label-security">Time slot</div>
-                    <div class="detail-value-security">
-                        ${typeof format12HourTimeSlot === 'function' ? format12HourTimeSlot(booking.timeSlot) : (booking.timeSlot || 'N/A')}
+                    
+                    <div class="detail-group">
+                        <div class="detail-label-security">Booking date</div>
+                        <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
                     </div>
-                </div>
-                
-                <div class="service-req-container">
-                    <div class="service-req-column">
-                        <div class="detail-label-security">Service Req Number</div>
-                        <div class="detail-value-security">${booking.serviceRequestNumber || 'N/A'}</div>
+                    
+                    <div class="detail-group">
+                        <div class="detail-label-security">Time slot</div>
+                        <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
                     </div>
-                    <div class="service-req-column">
-                        <div class="detail-label-security">Service Req Raised Date</div>
-                        <div class="detail-value-security">
-                            ${typeof formatCreationDate === 'function' ? formatCreationDate(booking.creationDate) : (booking.creationDate || 'N/A')}
+                    
+                    <div class="service-req-container">
+                        <div class="service-req-column">
+                            <div class="detail-label-security">Service Req Number</div>
+                            <div class="detail-value-security">${booking.serviceRequestNumber || 'N/A'}</div>
+                        </div>
+                        <div class="service-req-column">
+                            <div class="detail-label-security">Service Req Raised Date</div>
+                            <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-`;
+    </div>`;
     
     modal.classList.add('show');
 }

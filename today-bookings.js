@@ -126,8 +126,6 @@ function createQuickSecurityCard(booking) {
         </div>
     `;
 }
-
-// Show security view modal - MATCHES iOS APP DESIGN
 function showSecurityView(bookingId) {
     const booking = bookings.find(b => b.id === bookingId);
     if (!booking) return;
@@ -135,37 +133,38 @@ function showSecurityView(bookingId) {
     const modal = document.getElementById('securityModal');
     const content = document.getElementById('securityContent');
     
-    // Helper functions for formatting
-    function formatBookingDate(dateString) {
-        const date = apiService.parseDate(dateString);
-        const options = { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-US', options).replace(',', ',');
-    }
+    // Formatting Helpers (Keeping these as you had them)
+    const formatBookingDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric' });
+    };
     
-    function formatCreationDate(dateString) {
+    const formatCreationDate = (dateString) => {
         if (!dateString) return 'N/A';
-        const date = apiService.parseDate(dateString);
-        const day = String(date.getDate()).padStart(2, '0');
-        const month = date.toLocaleDateString('en-US', { month: 'short' });
-        const year = date.getFullYear();
-        return `${day}-${month}-${year}`;
-    }
+        const date = new Date(dateString);
+        return `${String(date.getDate()).padStart(2, '0')}-${date.toLocaleDateString('en-US', { month: 'short' })}-${date.getFullYear()}`;
+    };
     
-    function convertTo12Hour(time24) {
-        const [hours, minutes] = time24.split(':').map(Number);
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const hours12 = hours % 12 || 12;
-        return `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')} ${ampm}`;
-    }
-    
-    function format12HourTimeSlot(timeSlot) {
+    const format12HourTimeSlot = (timeSlot) => {
+        const convert = (t) => {
+            let [h, m] = t.split(':').map(Number);
+            const ampm = h >= 12 ? 'PM' : 'AM';
+            return `${String(h % 12 || 12).padStart(2, '0')}:${String(m).padStart(2, '0')} ${ampm}`;
+        };
         const [start, end] = timeSlot.split(' - ');
-        return `${convertTo12Hour(start)} - ${convertTo12Hour(end)}`;
-    }
+        return `${convert(start)} - ${convert(end)}`;
+    };
     
+    // 1. Define a close function that handles both the Overlay and the Modal Wrapper
+    window.closeSecurityModal = function() {
+        modal.classList.remove('show'); // Hides the main wrapper bar
+        content.innerHTML = '';         // Clears the overlay content
+    };
+
+    // 2. Updated HTML with the new close function
     content.innerHTML = `
     <div class="modal-overlay">
-        <button class="modal-close-btn" onclick="this.parentElement.remove()">&times;</button>
+        <button class="modal-close-btn" onclick="closeSecurityModal()">&times;</button>
 
         <div class="security-booking-card">
             <div class="approved-badge">
@@ -186,16 +185,12 @@ function showSecurityView(bookingId) {
                     
                     <div class="detail-group">
                         <div class="detail-label-security">Booking date</div>
-                        <div class="detail-value-security">
-                            ${typeof formatBookingDate === 'function' ? formatBookingDate(booking.bookingDate) : (booking.bookingDate || 'N/A')}
-                        </div>
+                        <div class="detail-value-security">${formatBookingDate(booking.bookingDate)}</div>
                     </div>
                     
                     <div class="detail-group">
                         <div class="detail-label-security">Time slot</div>
-                        <div class="detail-value-security">
-                            ${typeof format12HourTimeSlot === 'function' ? format12HourTimeSlot(booking.timeSlot) : (booking.timeSlot || 'N/A')}
-                        </div>
+                        <div class="detail-value-security">${format12HourTimeSlot(booking.timeSlot)}</div>
                     </div>
                     
                     <div class="service-req-container">
@@ -205,19 +200,16 @@ function showSecurityView(bookingId) {
                         </div>
                         <div class="service-req-column">
                             <div class="detail-label-security">Service Req Raised Date</div>
-                            <div class="detail-value-security">
-                                ${typeof formatCreationDate === 'function' ? formatCreationDate(booking.creationDate) : (booking.creationDate || 'N/A')}
-                            </div>
+                            <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-`;
+    </div>`;
+
     modal.classList.add('show');
 }
-
 
 
 document.querySelector('.modal-close-btn').addEventListener('click', () => {

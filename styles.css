@@ -911,5 +911,11 @@ body {
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
+#securityModal {
+    display: none; /* Hide the bar when not in use */
+}
 
+#securityModal.show {
+    display: block; /* Show only when active */
+}
  
