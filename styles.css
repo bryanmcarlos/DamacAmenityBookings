@@ -756,95 +756,113 @@ body {
 
 /* Update these specific classes in your styles.css */
 
-/* Container adjustments */
+/* Card Container */
 .security-booking-card {
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 24px;
+    margin: 15px auto;
+    width: 92%;
+    position: relative;
+    border: 1px solid #E5E5EA;
+    font-family: -apple-system, Helvetica, sans-serif;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Layout for Icon + Text */
+.card-main-layout {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    border: 1px solid #E5E5EA; /* Matching var(--border-color) */
-    border-radius: 16px; /* Matches IMG_2204 rounded corners */
-    padding: 24px;
-    margin-bottom: 16px;
-    background-color: #FFFFFF;
-    position: relative;
-    font-family: -apple-system, Helvetica, sans-serif;
+    margin-top: 10px;
 }
 
-/* Status Badge - Fixed to top right with icon */
+/* Approved Badge (Top Right) */
 .approved-badge {
     position: absolute;
-    top: 16px;
+    top: 18px;
     right: 20px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
+}
+
+.approved-badge span {
     color: #8E8E93;
     font-size: 13px;
+    font-weight: 400;
 }
 
 .approved-icon {
-    width: 20px;
-    height: 20px;
-}
-
-/* Icon - Restoring original size from old_style.css */
-.amenity-icon-container {
-    flex-shrink: 0;
-    margin-top: 32px; /* Aligns with Title text */
-    margin-right: 16px;
-}
-
-.amenity-icon {
-    width: 46px; 
-    height: 43px;
+    width: 18px;
+    height: 18px;
     object-fit: contain;
 }
 
-/* Details and Header Alignment */
+/* Main Amenity Icon (Left) */
+.amenity-icon-container {
+    width: 48px;
+    height: 48px;
+    margin-right: 15px;
+    margin-top: 24px; /* Aligns icon with the Title text */
+    flex-shrink: 0;
+}
+
+.amenity-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* Details Section */
 .booking-details-security {
     flex: 1;
 }
 
+/* Header Row: Title and Dots */
 .header-row-security {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 32px 0 24px 0; /* Matching spacing from IMG_2204 */
+    margin-bottom: 20px;
+    margin-top: 24px;
 }
 
 .amenity-name-security {
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 600;
     color: #000;
+    margin: 0;
 }
 
 .menu-dots {
-    font-size: 24px;
+    font-size: 22px;
     color: #333;
-    cursor: pointer;
     line-height: 1;
+    cursor: pointer;
 }
 
-/* Typography matching design 2204 */
+/* Labels and Values */
 .detail-label-security {
-    font-size: 13px;
-    color: #AEAEB2;
+    font-size: 12px;
+    color: #9E9E9E;
     font-weight: 300;
     margin-bottom: 4px;
+    text-transform: capitalize;
 }
 
 .detail-value-security {
-    font-size: 15px;
+    font-size: 14px;
+    color: #333;
     font-weight: 400;
-    color: #1C1C1E;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
-/* Side-by-Side Service Req Info */
+/* Side-by-Side Service Req */
 .service-req-container {
     display: flex;
     flex-direction: row;
-    gap: 40px; /* Space between the two columns */
+    gap: 40px;
 }
 
 .service-req-column {
