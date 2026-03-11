@@ -217,3 +217,18 @@ document.querySelector('.modal-close-btn').addEventListener('click', () => {
     // but usually it's something like:
     document.querySelector('.modal-overlay').remove(); 
 });
+
+// Updated Close Logic
+window.closeSecurityModal = function(event) {
+    const modal = document.getElementById('securityModal');
+    const content = document.getElementById('securityContent');
+
+    // If 'event' exists, only close if the user clicked the overlay background
+    // (and not the white card or the text inside it)
+    if (event && event.target !== event.currentTarget) {
+        return; 
+    }
+
+    modal.classList.remove('show');
+    content.innerHTML = '';
+};
