@@ -760,9 +760,9 @@ body {
 .security-booking-card {
     background: #FFFFFF;
     border-radius: 20px;
-    padding: 24px;
-    margin: 15px auto;
-    width: 92%;
+    padding: 10px;
+    margin: 2px auto;
+    width: 98%;
     position: relative;
     border: 1px solid #E5E5EA;
     font-family: -apple-system, Helvetica, sans-serif;
