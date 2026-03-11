@@ -828,14 +828,53 @@ body {
 }
 
 /* 5. Icon Spacing */
+/* Ensure the icon container doesn't collapse */
 .amenity-icon-container {
     flex-shrink: 0;
-    margin-right: 15px;
-    margin-top: 25px;
+    margin-right: 12px;
+    margin-top: 25px; /* Adjust based on title height */
+    width: 46px; 
+    height: 43px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .amenity-icon {
-    width: 40px; 
-    height: 40px;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    display: block; /* Ensures image renders */
+}
+
+/* Fix the menu dots positioning */
+.menu-dots {
+    color: #999;
+    font-size: 22px;
+    cursor: pointer;
+    margin-right: 8px;
+    padding-bottom: 10px;
+}
+
+/* Adjust Service Req spacing to match design 2204 */
+.service-req-container {
+    display: flex;
+    flex-direction: row;
+    gap: 40px; /* Space between Number and Raised Date */
+    margin-top: 5px;
+}
+
+.detail-label-security {
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: #9E9E9E;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+}
+
+.detail-value-security {
+    font-size: 14px;
+    font-weight: 300; /* Light weight as per design 2204 */
+    color: #333;
+    margin-bottom: 24px;
 }
