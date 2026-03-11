@@ -1,13 +1,33 @@
 // API Service for Damac Hills Tennis Booking
+// Using Cloudflare Worker Proxy to avoid CORS/CSP issues
 class DamacAPIService {
     constructor() {
+        // IMPORTANT: Replace this with YOUR Cloudflare Worker URL after setup
+        // Leave as null to use direct API (will have CORS issues on GitHub Pages)
+        this.proxyURL = 'https://damac-tennis-proxy.bryanmcarlos.workers.dev/'; // Set to 'https://damac-tennis-proxy.YOUR_SUBDOMAIN.workers.dev'
+        
+        // Fallback to direct API (for local testing or if no proxy)
         this.baseURL = `https://${CONFIG.API.host}/damacliving/api/v1`;
         this.tokens = new Map(); // Store tokens per account
+        
+        // Auto-detect if we should use proxy based on domain
+        if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+            console.warn('⚠️ Running on GitHub Pages - You need to set up a Cloudflare Worker proxy!');
+            console.warn('📖 See CSP_FIX_BACKEND_PROXY.md for instructions');
+        }
+    }
+    
+    // Get the appropriate API URL (proxy or direct)
+    getAPIUrl(endpoint) {
+        if (this.proxyURL) {
+            return `${this.proxyURL}${endpoint}`;
+        }
+        return `${this.baseURL}${endpoint}`;
     }
     
     // Login to get access token
     async login(account) {
-        const url = `${this.baseURL}/login`;
+        const url = this.getAPIUrl('/login');
         
         const body = {
             user_name: account.userName,
@@ -15,18 +35,25 @@ class DamacAPIService {
         };
         
         try {
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            // Only add API token if not using proxy
+            if (!this.proxyURL) {
+                headers['accept'] = 'application/json';
+                headers['api-token'] = CONFIG.API.apiToken;
+            }
+            
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    'accept': 'application/json',
-                    'api-token': CONFIG.API.apiToken,
-                    'Content-Type': 'application/json'
-                },
+                headers: headers,
                 body: JSON.stringify(body)
             });
             
             if (!response.ok) {
-                throw new Error(`Login failed: ${response.status}`);
+                const errorText = await response.text();
+                throw new Error(`Login failed: ${response.status} - ${errorText}`);
             }
             
             const data = await response.json();
@@ -58,19 +85,26 @@ class DamacAPIService {
     async fetchBookings(account) {
         try {
             const token = await this.getToken(account);
-            const url = `${this.baseURL}/amenities/bookings/${account.accountId}`;
+            const url = this.getAPIUrl(`/amenities/bookings/${account.accountId}`);
+            
+            const headers = {
+                'Authorization': `Bearer ${token}`
+            };
+            
+            // Only add these headers if not using proxy
+            if (!this.proxyURL) {
+                headers['accept'] = 'application/json';
+                headers['api-token'] = CONFIG.API.apiToken;
+            }
             
             const response = await fetch(url, {
                 method: 'GET',
-                headers: {
-                    'accept': 'application/json',
-                    'api-token': CONFIG.API.apiToken,
-                    'authorization': `Bearer ${token}`
-                }
+                headers: headers
             });
             
             if (!response.ok) {
-                throw new Error(`Failed to fetch bookings: ${response.status}`);
+                const errorText = await response.text();
+                throw new Error(`Failed to fetch bookings: ${response.status} - ${errorText}`);
             }
             
             const data = await response.json();
@@ -87,6 +121,12 @@ class DamacAPIService {
     
     // Fetch all bookings from all accounts
     async fetchAllBookings() {
+        // If using proxy with optimized endpoint, use it
+        if (this.proxyURL) {
+            return await this.fetchAllBookingsViaProxy();
+        }
+        
+        // Otherwise fetch from each account individually
         const allBookings = [];
         
         for (const account of CONFIG.ACCOUNTS) {
@@ -99,6 +139,42 @@ class DamacAPIService {
         }
         
         return allBookings;
+    }
+    
+    // Optimized fetch via proxy (single request for all accounts)
+    async fetchAllBookingsViaProxy() {
+        try {
+            const url = `${this.proxyURL}/all-bookings`;
+            
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(CONFIG.ACCOUNTS)
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Failed to fetch all bookings: ${response.status} - ${errorText}`);
+            }
+            
+            const data = await response.json();
+            const apiBookings = data?.bookings || [];
+            
+            return apiBookings.map(booking => {
+                const account = CONFIG.ACCOUNTS.find(a => a.accountId === booking._account.accountId);
+                return this.transformBooking(booking, account || {
+                    accountId: booking._account.accountId,
+                    displayName: booking._account.displayName,
+                    userName: booking._account.userName
+                });
+            });
+            
+        } catch (error) {
+            console.error('Error fetching all bookings via proxy:', error);
+            throw error;
+        }
     }
     
     // Transform API booking to app format
