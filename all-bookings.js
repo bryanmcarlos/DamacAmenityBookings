@@ -389,7 +389,7 @@ function showSecurityView(bookingId) {
                             <div class="detail-value-security">${booking.serviceRequestNumber || 'N/A'}</div>
                         </div>
                         <div class="service-req-column">
-                            <div class="detail-label-security">Service Req Raised Date</div>
+                            <div class="detail-label-security">Service Req Raised <br> Date</div>
                             <div class="detail-value-security">${formatCreationDate(booking.creationDate)}</div>
                         </div>
                     </div>
