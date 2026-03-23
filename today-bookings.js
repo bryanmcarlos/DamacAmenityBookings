@@ -28,8 +28,12 @@ async function loadBookings(forceRefresh = false) {
     showLoading();
     
     try {
-        bookings = await apiService.fetchAllBookings();
-        
+        const allBookings = await apiService.fetchAllBookings();
+
+        // Filter for today only
+        const today = apiService.getTodayString();
+        bookings = allBookings.filter(booking => booking.bookingDate === today);
+
         // Cache the result for 5 minutes
         CacheService.set('today-bookings', bookings, 5);
         
@@ -231,11 +235,6 @@ function showSecurityView(bookingId) {
 }
 
 
-document.querySelector('.modal-close-btn').addEventListener('click', () => {
-    // This logic depends on how you open the modal, 
-    // but usually it's something like:
-    document.querySelector('.modal-overlay').remove(); 
-});
 
 // Updated Close Logic
 window.closeSecurityModal = function(event) {
