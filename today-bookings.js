@@ -9,14 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Load bookings
-async function loadBookings() {
+async function loadBookings(forceRefresh = false) {
     if (isLoading) return;
+    
+    // Check cache first (unless force refresh)
+    if (!forceRefresh) {
+        const cached = CacheService.get('today-bookings');
+        if (cached) {
+            console.log(`📦 Using cached bookings (${CacheService.getAge('today-bookings')}s old)`);
+            bookings = cached;
+            applyFilter();
+            displayBookings();
+            return;
+        }
+    }
     
     isLoading = true;
     showLoading();
     
     try {
         bookings = await apiService.fetchAllBookings();
+        
+        // Cache the result for 5 minutes
+        CacheService.set('today-bookings', bookings, 5);
+        
+        applyFilter();
         displayBookings();
     } catch (error) {
         console.error('Error loading bookings:', error);
@@ -28,7 +45,9 @@ async function loadBookings() {
 
 // Refresh bookings
 async function refreshBookings() {
-    await loadBookings();
+    console.log('🔄 Force refresh (clearing cache)');
+    CacheService.clear('today-bookings');
+    await loadBookings(true);
 }
 
 // Show loading state
