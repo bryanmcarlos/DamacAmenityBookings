@@ -18,7 +18,6 @@ async function loadBookings(forceRefresh = false) {
         if (cached) {
             console.log(`📦 Using cached bookings (${CacheService.getAge('today-bookings')}s old)`);
             bookings = cached;
-            applyFilter();
             displayBookings();
             return;
         }
@@ -28,16 +27,16 @@ async function loadBookings(forceRefresh = false) {
     showLoading();
     
     try {
+        // ✅ FIX 1: Filter for today's bookings
         const allBookings = await apiService.fetchAllBookings();
-
+        
         // Filter for today only
         const today = apiService.getTodayString();
         bookings = allBookings.filter(booking => booking.bookingDate === today);
-
+        
         // Cache the result for 5 minutes
         CacheService.set('today-bookings', bookings, 5);
         
-        applyFilter();
         displayBookings();
     } catch (error) {
         console.error('Error loading bookings:', error);
@@ -149,6 +148,7 @@ function createQuickSecurityCard(booking) {
         </div>
     `;
 }
+
 function showSecurityView(bookingId) {
     const booking = bookings.find(b => b.id === bookingId);
     if (!booking) return;
@@ -178,20 +178,13 @@ function showSecurityView(bookingId) {
         return `${convert(start)} - ${convert(end)}`;
     };
     
-    // 1. Define a close function that handles both the Overlay and the Modal Wrapper
-    window.closeSecurityModal = function() {
-        modal.classList.remove('show'); // Hides the main wrapper bar
-        content.innerHTML = '';         // Clears the overlay content
-    };
-
-    // 2. Updated HTML with the new close function
     content.innerHTML = `
-    <div class="modal-overlay">
+    <div class="modal-overlay" onclick="closeSecurityModal(event)">
         <button class="modal-close-btn" onclick="closeSecurityModal()">&times;</button>
 
         <div class="security-booking-card">
             <div class="approved-badge">
-                <img src="approvedIcon.png" alt="Approved" class="approved-icon">
+                <img src="approvedIcon.png" alt="Approved" class="approved-icon" onerror="this.style.display='none'">
                 <span>Approved</span>
             </div>
             
@@ -234,19 +227,26 @@ function showSecurityView(bookingId) {
     modal.classList.add('show');
 }
 
-
-
-// Updated Close Logic
+// ✅ FIX 2: Single clean close function (removed duplicate and dead code)
 window.closeSecurityModal = function(event) {
     const modal = document.getElementById('securityModal');
     const content = document.getElementById('securityContent');
 
-    // If 'event' exists, only close if the user clicked the overlay background
-    // (and not the white card or the text inside it)
-    if (event && event.target !== event.currentTarget) {
-        return; 
+    // Don't close if user clicked inside the card
+    if (event && event.target.closest('.security-booking-card')) {
+        return;
     }
 
     modal.classList.remove('show');
     content.innerHTML = '';
 };
+
+// Close modals with Escape key
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        const securityModal = document.getElementById('securityModal');
+        if (securityModal && securityModal.classList.contains('show')) {
+            closeSecurityModal();
+        }
+    }
+});
