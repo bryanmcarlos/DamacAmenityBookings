@@ -358,25 +358,13 @@ function showSecurityView(bookingId) {
 
         <div class="security-booking-card">
             <div class="approved-badge">
-                ${booking.approvedIcon ? 
-                    `<img src="${booking.approvedIcon}" alt="Approved" class="approved-icon" onerror="this.style.display='none'">` : 
-                    `<svg class="approved-icon" width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="#7D7D7D" stroke-width="2">
-                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-                        <polyline points="22 4 12 14.01 9 11.01"/>
-                    </svg>`
-                }
+                <img src="approvedIcon.png" alt="Approved" class="approved-icon" onerror="this.style.display='none'">
                 <span>Approved</span>
             </div>
             
             <div class="card-main-layout">
                 <div class="amenity-icon-container">
-                    ${booking.icon ? 
-                        `<img src="${booking.icon}" alt="Amenity Icon" class="amenity-icon" onerror="this.parentElement.innerHTML='<svg class=\\'amenity-icon-fallback\\' viewBox=\\'0 0 24 24\\' fill=\\'currentColor\\'><circle cx=\\'12\\' cy=\\'12\\' r=\\'10\\'/></svg>'">` :
-                        `<svg class="amenity-icon-fallback" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2L2 7v10c0 5.5 3.8 9.7 9 11 5.2-1.3 9-5.5 9-11V7l-10-5z"/>
-                            <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
-                        </svg>`
-                    }
+                    <img src="icon.png" alt="Amenity Icon" class="amenity-icon" onerror="this.style.display='none'">
                 </div>
                 
                 <div class="booking-details-security">
